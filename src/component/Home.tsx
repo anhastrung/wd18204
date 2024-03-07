@@ -1,10 +1,19 @@
 import image1 from "../assets/image 1.png"
-import croods from "../assets/croods 1.png"
+import banner from "../assets/croods 1.png"
 import image6 from "../assets/image 6.png"
 import image7 from "../assets/image 7.png"
-import Image from "./db"
+import Products from "./Products"
+import { useEffect, useState } from "react"
+import { IProduct } from "../interfaces/IProduct"
 
 const HomePage = () => {
+    const [products, setProducts] = useState<IProduct[]>([])
+    useEffect(() => {
+        (async () => {
+            const data = await (await fetch("http://localhost:3000/products")).json()
+            setProducts(data)
+        })()
+    }, [])
     return (
         <main>
             <div className="banner">
@@ -13,7 +22,7 @@ const HomePage = () => {
                     <p>why learn how to blog?</p>
                 </div>
                 <div className="image">
-                    <img src={croods} alt="" />
+                    <img src={banner} alt="" />
                 </div>
             </div>
             <div className="content">
@@ -30,21 +39,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="card">
-                {Image && Image.map(item => (
-                    <div className="item">
-                        <div className="image">
-                            <img src={item.image} alt="" />
-                        </div>
-                        <div className="text">
-                            <h4>{item.title}</h4>
-                            <p>{item.content}</p>
-                            <div className="bar">
-                                <span>May 20th 2020</span>
-                                <a href="#">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                {products && products.map(item => <Products item={item} />)}
             </div>
             <div className="content-highlight">
                 <div className="text">
@@ -60,7 +55,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="more">
-                    <button><a href="#">See more <i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a></button>
+                <button><a href="#">See more <i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a></button>
             </div>
         </main>
     )
