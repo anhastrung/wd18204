@@ -1,12 +1,11 @@
+import { useContext } from "react"
+import { ProductContext } from "../context/ProductContextProvider"
 import { IProduct } from "../interfaces/IProduct"
 import FooterPage from "./Footer"
 import HeaderPage from "./Header"
 
-type Props = {
-    products: IProduct[]
-    removeItem: (id: number) => void
-}
-const HomePage = ({ products, removeItem }: Props) => {
+const HomePage = () => {
+    const {products} = useContext(ProductContext)
     return (
         <div className="container">
             <HeaderPage />
@@ -34,13 +33,13 @@ const HomePage = ({ products, removeItem }: Props) => {
                     </div>
                 </div>
                 <div className="card">
-                    {products && products.map((item: IProduct, index) => (
+                    {products && products.map((item: IProduct, index:number) => (
                         <div className="item" key={index}>
                             <div className="image">
                                 <img src={item.image} alt={item.title} />
                             </div>
                             <div className="text">
-                                <h4 onClick={() => { if (confirm("xac nhan")) { removeItem(item.id!) } }}>{item.title}</h4>
+                                <h4>{item.title}</h4>
                                 <p>{item.description}</p>
                                 <div className="bar">
                                     <span>{item.date}</span>

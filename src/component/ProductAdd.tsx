@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import "../../public/3.4.1"
 import { IProduct } from "../interfaces/IProduct"
 import { useNavigate } from "react-router-dom"
-type Props = {
-    onAdd: (data: IProduct) => void
-}
-const ProductAdd = ({ onAdd }: Props) => {
+import { ProductContext } from "../context/ProductContextProvider"
+import { useContext } from "react"
+const ProductAdd = () => {
+    const {onHandleAdd} = useContext(ProductContext)
     const {
         register,
         handleSubmit,
@@ -13,7 +13,7 @@ const ProductAdd = ({ onAdd }: Props) => {
     } = useForm<IProduct>()
     const navigate = useNavigate()
     const onSubmit: SubmitHandler<IProduct> = (data) => {
-        onAdd(data)
+        onHandleAdd(data)
         navigate('/products')
     }
     return (

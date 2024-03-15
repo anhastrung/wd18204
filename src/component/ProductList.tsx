@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom"
 import { IProduct } from "../interfaces/IProduct"
 import "../../public/3.4.1"
-type Props = {
-    products: IProduct[]
-    removeItem: (id: number) => void
-}
+import { useContext } from "react"
+import { ProductContext } from "../context/ProductContextProvider"
 
-const ProductList = ({ products, removeItem }: Props) => {
+const ProductList = () => {
+    const {products, onHandleRemove} = useContext(ProductContext)
     return (
         <div className="container">
             <Link to={`/products/add`}><button className="bg-blue-400 hover:bg-green-500 py-1 px-2 text-white rounded mb-2">Add New Product!</button></Link>
@@ -30,7 +29,7 @@ const ProductList = ({ products, removeItem }: Props) => {
                             <td className="p-4 border-gray-300 border"><img src={item.image} alt={item.title} className="w-40 h-auto" /></td>
                             <td className="p-4 border-gray-300 border w-40">{item.date}</td>
                             <td className="p-4 border-gray-300 border w-48">
-                                <button className="bg-red-500 hover:bg-green-500 py-1 px-2 text-white rounded mx-1" onClick={() => removeItem(item.id!)}>Remove</button>
+                                <button className="bg-red-500 hover:bg-green-500 py-1 px-2 text-white rounded mx-1" onClick={() => onHandleRemove(item.id!)}>Remove</button>
                                 <Link to={`/products/edit/${item.id}`}><button className="bg-yellow-400 hover:bg-green-500 py-1 px-2 text-white rounded mx-1">Edit</button></Link>
                             </td>
                         </tr>
