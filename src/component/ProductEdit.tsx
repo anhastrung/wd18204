@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react"
 import axios from "axios"
 import { ProductContext } from "../context/ProductContextProvider"
 const ProductEdit = () => {
-    const { onHandleEdit } = useContext(ProductContext)
+    const { products, dispatch } = useContext(ProductContext)
     const { id } = useParams()
     const {
         register,
@@ -21,6 +21,15 @@ const ProductEdit = () => {
             reset(data);
         })();
     }, [id, reset]);
+    const onHandleEdit = async (product: IProduct) => {
+        try {
+            const { data } = await axios.put(`http://localhost:3000/products/${product.id}`, product)
+            const newProducts = products.value.map(item => (item.id === product.id ? data : item))
+            dispatch({ type: 'UPDATE_PRODUCT', payload: newProducts })
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const onSubmit: SubmitHandler<IProduct> = (data) => {
         onHandleEdit(data)
         navigate('/products')

@@ -4,14 +4,23 @@ import { IProduct } from "../interfaces/IProduct"
 import { useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContextProvider"
 import { useContext } from "react"
+import axios from "axios"
 const ProductAdd = () => {
-    const {onHandleAdd} = useContext(ProductContext)
+    const { dispatch } = useContext(ProductContext)
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<IProduct>()
     const navigate = useNavigate()
+    const onHandleAdd = async (product: IProduct) => {
+        try {
+            const { data } = await axios.post('http://localhost:3000/products', product)
+            dispatch({ type: 'ADD_PRODUCT', payload: data })
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const onSubmit: SubmitHandler<IProduct> = (data) => {
         onHandleAdd(data)
         navigate('/products')

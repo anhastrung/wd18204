@@ -1,13 +1,27 @@
-import { createContext, useState } from "react"
+import { createContext, useReducer } from "react"
+export const CountContext = createContext({} as any)
+const const initialState = {}
 
-export const CountContext = createContext(0 as number)
-const CountContextProvider = ({ children }) => {
-    const [count, setCount] = useState(0)
-    return (
-        <CountContext.Provider value={{ count, setCount }}>
-            {children}
-        </CountContext.Provider>
-    )
+export const reducer = (state: { count: number }, action) => {
+    switch (action.type) {
+        case "INCREMENT":
+            return { cout: state.count + 1 }
+        case "DECREESEMENT":
+            return { cout: state.count - 1 }
+        case "INCRESE":
+            return { cout: state.count + action.payload }
+        default:
+            return state
+    }
 }
 
-export default CountContextProvider
+const CountContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const [count, dispatch] = useReducer(reducer, { count: 0 })
+    return (
+        <div>
+            <CountContext.Provider value={{ count, dispatch }}>
+                {children}
+            </CountContext.Provider>
+        </div>
+    )
+}

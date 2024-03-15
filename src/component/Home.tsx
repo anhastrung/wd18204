@@ -1,11 +1,22 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { ProductContext } from "../context/ProductContextProvider"
 import { IProduct } from "../interfaces/IProduct"
 import FooterPage from "./Footer"
 import HeaderPage from "./Header"
+import axios from "axios"
 
 const HomePage = () => {
-    const {products} = useContext(ProductContext)
+    const { products, dispatch } = useContext(ProductContext)
+    useEffect(() => {
+        (async () => {
+            try {
+                const { data } = await axios.get('http://localhost:3000/products')
+                dispatch({ type: 'SET_PRODUCT', payload: data })
+            } catch (error) {
+                console.error(error)
+            }
+        })()
+    }, [dispatch])
     return (
         <div className="container">
             <HeaderPage />
@@ -33,7 +44,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="card">
-                    {products && products.map((item: IProduct, index:number) => (
+                    {products.value && products.value.map((item: IProduct, index: number) => (
                         <div className="item" key={index}>
                             <div className="image">
                                 <img src={item.image} alt={item.title} />

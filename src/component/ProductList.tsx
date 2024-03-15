@@ -1,11 +1,34 @@
 import { Link } from "react-router-dom"
 import { IProduct } from "../interfaces/IProduct"
 import "../../public/3.4.1"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { ProductContext } from "../context/ProductContextProvider"
+import axios from "axios"
 
 const ProductList = () => {
-    const {products, onHandleRemove} = useContext(ProductContext)
+    const { products, dispatch } = useContext(ProductContext)
+    useEffect(() => {
+        (async () => {
+            try {
+                const { data } = await axios.get('http://localhost:3000/products')
+                dispatch({ type: 'SET_PRODUCT', payload: data })
+                console.log(dispatch.type);
+
+            } catch (error) {
+                console.error(error)
+            }
+        })()
+    }, [dispatch])
+    const onHandleRemove = async (id: number) => {
+        try {
+            if (confirm("Are you sure?")) {
+                await axios.delete(`http://localhost:3000/products/${id}`)
+                dispatch({ type: 'REMOVE_PRODUCT', payload: id })
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <div className="container">
             <Link to={`/products/add`}><button className="bg-blue-400 hover:bg-green-500 py-1 px-2 text-white rounded mb-2">Add New Product!</button></Link>
@@ -21,7 +44,7 @@ const ProductList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products && products.map((item: IProduct, index: number) => (
+                    {products.value && products.value.map((item: IProduct, index: number) => (
                         <tr key={index}>
                             <td className="p-4 border-gray-300 border">{item.id}</td>
                             <td className="p-4 border-gray-300 border w-48">{item.title}</td>
