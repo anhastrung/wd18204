@@ -6,12 +6,12 @@ import HeaderPage from "./Header"
 import axios from "axios"
 
 const HomePage = () => {
-    const { products, dispatch } = useContext(ProductContext)
+    const [ products, dispatch ] = useContext(ProductContext)
     useEffect(() => {
         (async () => {
             try {
                 const { data } = await axios.get('http://localhost:3000/products')
-                dispatch({ type: 'SET_PRODUCT', payload: data })
+                dispatch({ type: 'SET_PRODUCTS', payload: data })
             } catch (error) {
                 console.error(error)
             }

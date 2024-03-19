@@ -6,12 +6,12 @@ import { ProductContext } from "../context/ProductContextProvider"
 import axios from "axios"
 
 const ProductList = () => {
-    const { products, dispatch } = useContext(ProductContext)
+    const [products, dispatch] = useContext(ProductContext)
     useEffect(() => {
         (async () => {
             try {
                 const { data } = await axios.get('http://localhost:3000/products')
-                dispatch({ type: 'SET_PRODUCT', payload: data })
+                dispatch({ type: 'SET_PRODUCTS', payload: data })
                 console.log(dispatch.type);
 
             } catch (error) {

@@ -19,7 +19,7 @@
   "products": [
     {
       "id": 1,
-      "title": "long established13",
+      "title": "long established1",
       "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that....",
       "image": "/src/assets/image 2.png",
       "date": "May 20, 2020"
@@ -37,20 +37,6 @@
       "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that....",
       "image": "/src/assets/image 5.png",
       "date": "May 20, 2020"
-    },
-    {
-      "title": "353131123123",
-      "description": "3533131",
-      "image": "/src/assets/image 2.png",
-      "date": "March 12, 2024",
-      "id": 6
-    },
-    {
-      "title": "11112",
-      "description": "1",
-      "image": "1",
-      "date": "March 15, 2024",
-      "id": 7
     }
   ]
 }
