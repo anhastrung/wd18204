@@ -4,12 +4,14 @@ import HomePage from './component/pages/homepage/Home'
 import ProductList from './component/admin/products/ProductList'
 import ProductAdd from './component/admin/products/ProductAdd'
 import ProductEdit from './component/admin/products/ProductEdit'
+import DetailPage from './component/pages/detailpage/DetailPage'
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/detail" element={<DetailPage />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/add" element={<ProductAdd />} />
         <Route path="/products/edit/:id" element={<ProductEdit />} />
