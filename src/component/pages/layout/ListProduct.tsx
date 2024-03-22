@@ -1,6 +1,6 @@
 const ListProductPage = () => {
     return (
-        <div className="product-list">
+        <div className="product-list mb-8">
             <div className="product-item">
                 <div className="product-image">
                     <img src="https://picsum.photos/id/10/300/300" alt="" className="product__thumbnail" />
@@ -99,7 +99,7 @@ const ListProductPage = () => {
                     </div>
                 </div>
             </div>
-        </div>                
+        </div>
     )
 }
 

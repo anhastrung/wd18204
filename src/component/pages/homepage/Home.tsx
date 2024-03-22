@@ -1,7 +1,7 @@
-import ListProductPage from '../ListProduct'
 import BannerPage from '../layout/Banner'
 import FooterPage from '../layout/Footer'
 import HeaderPage from '../layout/Header'
+import ListProductPage from '../layout/ListProduct'
 import ServicePage from '../layout/Service'
 import './style.css'
 const HomePage = () => {
