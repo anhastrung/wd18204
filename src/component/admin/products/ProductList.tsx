@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom"
-import { IProduct } from "../interfaces/IProduct"
-import "../../public/3.4.1"
 import { useContext, useEffect } from "react"
-import { ProductContext } from "../context/ProductContextProvider"
 import axios from "axios"
+import { ProductContext } from "../../../context/ProductContextProvider"
+import { IProduct } from "../../../interfaces/IProduct"
 
 const ProductList = () => {
     const [products, dispatch] = useContext(ProductContext)

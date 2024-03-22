@@ -1,9 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import "../../public/3.4.1"
-import { IProduct } from "../interfaces/IProduct"
 import { useNavigate } from "react-router-dom"
-import { ProductContext } from "../context/ProductContextProvider"
 import { useContext } from "react"
+import { ProductContext } from "../../../context/ProductContextProvider"
+import { IProduct } from "../../../interfaces/IProduct"
 import axios from "axios"
 const ProductAdd = () => {
     const [, dispatch ] = useContext(ProductContext)
