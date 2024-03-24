@@ -17,7 +17,7 @@ const ListProductPage = () => {
                     </div>
                 </div>
                 <div className="product-actions">
-                    <button className="btn product-action__quickview bg-white text-black">Quick View</button>
+                    <button className="btn product-action__quickview bg-white text-black"><a href="/detail">Quick View</a></button>
                     <button className="btn product-action__addtocart bg-white text-black">Add To Cart</button>
                     <div className="product-actions-more">
                         <span className="product-action__share">Share</span>
@@ -42,7 +42,7 @@ const ListProductPage = () => {
                     </div>
                 </div>
                 <div className="product-actions">
-                    <button className="btn product-action__quickview bg-white text-black">Quick View</button>
+                    <button className="btn product-action__quickview bg-white text-black"><a href="/detail">Quick View</a></button>
                     <button className="btn product-action__addtocart bg-white text-black">Add To Cart</button>
                     <div className="product-actions-more">
                         <span className="product-action__share">Share</span>
@@ -66,7 +66,7 @@ const ListProductPage = () => {
                     </div>
                 </div>
                 <div className="product-actions">
-                    <button className="btn product-action__quickview bg-white text-black">Quick View</button>
+                    <button className="btn product-action__quickview bg-white text-black"><a href="/detail">Quick View</a></button>
                     <button className="btn product-action__addtocart bg-white text-black">Add To Cart</button>
                     <div className="product-actions-more">
                         <span className="product-action__share">Share</span>
@@ -90,7 +90,7 @@ const ListProductPage = () => {
                     </div>
                 </div>
                 <div className="product-actions">
-                    <button className="btn product-action__quickview bg-white text-black">Quick View</button>
+                    <button className="btn product-action__quickview bg-white text-black"><a href="/detail">Quick View</a></button>
                     <button className="btn product-action__addtocart bg-white text-black">Add To Cart</button>
                     <div className="product-actions-more">
                         <span className="product-action__share">Share</span>

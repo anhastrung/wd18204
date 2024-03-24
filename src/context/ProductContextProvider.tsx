@@ -17,7 +17,7 @@ const initialState = {
 } as State;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const ProductContext = createContext({} as [ products: { value: IProduct[] }, dispatch: any ])
+export const ProductContext = createContext({} as [products: { value: IProduct[] }, dispatch: any])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
@@ -40,7 +40,7 @@ const reducer = (state: State, action: Action) => {
 const ProductContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [products, dispatch] = useReducer(produce(reducer), initialState)
     return (
-        <ProductContext.Provider value={[ products, dispatch ]}>
+        <ProductContext.Provider value={[products, dispatch]}>
             {children}
         </ProductContext.Provider>
     )
