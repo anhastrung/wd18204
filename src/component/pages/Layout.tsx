@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 import "./style.css"
 const Layout = () => {
     return (
@@ -6,30 +6,30 @@ const Layout = () => {
             <header className="header">
                 <div className="container">
                     <div className="header-inner">
-                        <a href="" className="header__logo">
+                        <Link to="/" className="header__logo">
                             <img src="/src/assets/logo.svg" alt="" />
-                        </a>
+                        </Link>
                         <div className="button-mobile"><button>=</button></div>
                         <nav className="main-menu">
                             <ul className="main-menu__list">
-                                <li className="main-menu__item"><a href="/" className="main-menu__link">Home</a></li>
-                                <li className="main-menu__item"><a href="/shop" className="main-menu__link">Shop</a></li>
-                                <li className="main-menu__item"><a href="/about" className="main-menu__link">About</a></li>
-                                <li className="main-menu__item"><a href="/contact" className="main-menu__link">Contact</a></li>
+                                <li className="main-menu__item"><Link to="/" className="main-menu__link">Home</Link></li>
+                                <li className="main-menu__item"><Link to="/shop" className="main-menu__link">Shop</Link></li>
+                                <li className="main-menu__item"><Link to="/about" className="main-menu__link">About</Link></li>
+                                <li className="main-menu__item"><Link to="/contact" className="main-menu__link">Contact</Link></li>
                             </ul>
                         </nav>
                         <div className="header-items">
                             <div className="header-item-user">
-                                <a href="/login"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></a>
+                                <Link to="/admin"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></Link>
                             </div>
                             <div className="header-item-user">
-                                <span><img src="/src/assets/akar-icons_search.png" /></span>
+                                <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
                             </div>
                             <div className="header-item-user">
-                                <span><img src="/src/assets/akar-icons_heart.png" /></span>
+                                <Link to="/fav"><span><img src="/src/assets/akar-icons_heart.png" /></span></Link>
                             </div>
                             <div className="header-item-user">
-                                <a href="/cart"><span><img src="/src/assets/ant-design_shopping-cart-outlined.png" /></span></a>
+                                <Link to="/cart"><span><img src="/src/assets/ant-design_shopping-cart-outlined.png" /></span></Link>
                             </div>
                         </div>
                     </div>

@@ -4,17 +4,19 @@ import DetailPage from './component/pages/DetailPage'
 import ShopPage from './component/pages/Shop'
 import CartPage from './component/pages/Cart'
 import Layout from './component/pages/Layout'
-import LayoutAdmin from './component/admin/LayoutAdmin'
-import ProductList from './component/admin/product/ProductList'
+import LayoutAdmin from './component/pages/admin/LayoutAdmin'
+import ProductList from './component/pages/admin/product/ProductList'
 import CheckOut from './component/pages/CheckOut'
-import ProductAdd from './component/admin/product/ProductAdd'
-import ProductEdit from './component/admin/product/ProductEdit'
-import CategoryEdit from './component/admin/category/CategoryEdit'
-import CategoryAdd from './component/admin/category/CategoryAdd'
-import CategoryList from './component/admin/category/CategoryList'
-import UserList from './component/admin/user/UserList'
-import UserAdd from './component/admin/user/UserAdd'
-import UserEdit from './component/admin/user/UserEdit'
+import ProductAdd from './component/pages/admin/product/ProductAdd'
+import ProductEdit from './component/pages/admin/product/ProductEdit'
+import CategoryEdit from './component/pages/admin/category/CategoryEdit'
+import CategoryAdd from './component/pages/admin/category/CategoryAdd'
+import CategoryList from './component/pages/admin/category/CategoryList'
+import UserList from './component/pages/admin/user/UserList'
+import UserAdd from './component/pages/admin/user/UserAdd'
+import UserEdit from './component/pages/admin/user/UserEdit'
+import DashBoard from './component/pages/admin/DashBoard'
+import NotFound from './component/pages/NotFound'
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
           <Route path='checkout' element={<CheckOut />} />
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
+          <Route path='' element={<DashBoard />} />
           <Route path='products'>
             <Route path='' element={<ProductList />} />
             <Route path='add' element={<ProductAdd />} />
@@ -44,6 +47,7 @@ function App() {
             <Route path=':id/edit' element={<UserEdit />} />
           </Route>
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )
