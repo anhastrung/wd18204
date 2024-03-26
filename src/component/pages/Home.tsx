@@ -1,19 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
-import BannerPage from '../layout/Banner'
-import FooterPage from '../layout/Footer'
-import HeaderPage from '../layout/Header'
-import ListProductPage from '../layout/ListProduct'
-import ServicePage from '../layout/Service'
-import './style.css'
+import { BannerPage, ServicePage } from "./Layout"
+import ListProductPage from "./ListProduct"
 const HomePage = () => {
-    const state = useSelector((state: { count: number }) => state)
-    const dispath = useDispatch()
     return (
         <div className="font-['Poppins']">
-            Count {state.count}
-            <button onClick={() => dispath({ type: "INCREMENT" })}>INCREMENT</button>
-            <button onClick={() => dispath({ type: "DECREMENT" })}>INCREMENT</button>
-            <HeaderPage />
             <BannerPage />
             <section className="news">
                 <div className="container">
@@ -102,7 +91,6 @@ const HomePage = () => {
                 </div>
             </section>
             <ServicePage />
-            <FooterPage />
         </div>
     )
 }

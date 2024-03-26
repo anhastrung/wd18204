@@ -1,11 +1,7 @@
-import BannerPage from '../layout/Banner'
-import FooterPage from '../layout/Footer'
-import HeaderPage from '../layout/Header'
-import ServicePage from '../layout/Service'
+import { BannerPage, ServicePage } from "./Layout"
 const CartPage = () => {
     return (
         <div className="font-['Poppins']">
-            <HeaderPage />
             <BannerPage />
             <div className="container md:flex md:justify-between gap-8 py-12">
                 <table className='table-fixed w-full'>
@@ -24,31 +20,7 @@ const CartPage = () => {
                             <td className='text-black py-4'><img src="/src/assets/Asgaard sofa 5.png" alt="" /></td>
                             <td className='text-black py-4'>Asgaard sofa</td>
                             <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><input type="number" value={1} name="" id="" /></td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><img src="/src/assets/ant-design_delete-filled.png" alt="" /></td>
-                        </tr>
-                        <tr>
-                            <td className='text-black py-4'><img src="/src/assets/Asgaard sofa 5.png" alt="" /></td>
-                            <td className='text-black py-4'>Asgaard sofa</td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><input type="number" value={1} name="" id="" /></td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><img src="/src/assets/ant-design_delete-filled.png" alt="" /></td>
-                        </tr>
-                        <tr>
-                            <td className='text-black py-4'><img src="/src/assets/Asgaard sofa 5.png" alt="" /></td>
-                            <td className='text-black py-4'>Asgaard sofa</td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><input type="number" value={1} name="" id="" /></td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><img src="/src/assets/ant-design_delete-filled.png" alt="" /></td>
-                        </tr>
-                        <tr>
-                            <td className='text-black py-4'><img src="/src/assets/Asgaard sofa 5.png" alt="" /></td>
-                            <td className='text-black py-4'>Asgaard sofa</td>
-                            <td className='text-black py-4'>25.000.000đ</td>
-                            <td className='text-black py-4'><input type="number" value={1} name="" id="" /></td>
+                            <td className='text-black py-4'>1</td>
                             <td className='text-black py-4'>25.000.000đ</td>
                             <td className='text-black py-4'><img src="/src/assets/ant-design_delete-filled.png" alt="" /></td>
                         </tr>
@@ -70,7 +42,6 @@ const CartPage = () => {
                 </div>
             </div>
             <ServicePage />
-            <FooterPage />
         </div>
     )
 }

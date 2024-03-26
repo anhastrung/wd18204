@@ -1,13 +1,9 @@
-import BannerPage from '../layout/Banner'
-import FooterPage from '../layout/Footer'
-import HeaderPage from '../layout/Header'
-import ListProductPage from '../layout/ListProduct'
-import ServicePage from '../layout/Service'
-import './style.css'
+import { BannerPage, ServicePage } from "./Layout"
+import ListProductPage from "./ListProduct"
+
 const ShopPage = () => {
     return (
         <div className="font-['Poppins']">
-            <HeaderPage />
             <BannerPage />
             <div className="container pt-12">
                 <ListProductPage />
@@ -24,7 +20,6 @@ const ShopPage = () => {
 
             </div>
             <ServicePage />
-            <FooterPage />
         </div>
     )
 }

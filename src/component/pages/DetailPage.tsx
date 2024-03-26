@@ -1,12 +1,8 @@
-import FooterPage from '../layout/Footer'
-import HeaderPage from '../layout/Header'
-import ListProductPage from '../layout/ListProduct'
-import './style.css'
+import ListProductPage from "./ListProduct"
 
 const DetailPage = () => {
     return (
         <div className="font-['Poppins']">
-            <HeaderPage />
             <section className="nav-bar">
                 <div className="container">
                     <ul className="nav-bar-deltail">
@@ -171,7 +167,6 @@ const DetailPage = () => {
                 </div>
             </section>
             <hr className="title-line" />
-            <FooterPage />
         </div>
     )
 }
