@@ -1,18 +1,30 @@
 {
-  "categories": [
+  "category": [
     {
       "id": 1,
       "name": "smartphones",
-      "image": "https://cdn.dummyjson.com/category-images/smartphones.jpg",
+      "image": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
       "description": "Explore our wide range of smartphones",
       "createdAt": "2022-01-01"
     },
     {
       "id": 2,
       "name": "laptops",
-      "image": "https://cdn.dummyjson.com/category-images/laptops.jpg",
+      "image": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
       "description": "Discover our latest laptop models",
       "createdAt": "2022-01-01"
+    },
+    {
+      "name": "1uuu",
+      "image": "2",
+      "description": "ud",
+      "id": 3
+    },
+    {
+      "name": "1",
+      "image": "2",
+      "description": "333",
+      "id": 4
     }
   ],
   "products": [

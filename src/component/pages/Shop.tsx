@@ -6,7 +6,7 @@ const ShopPage = () => {
         <div className="font-['Poppins']">
             <BannerPage />
             <div className="container pt-12">
-                <ListProductPage limit={0} btn={true} />
+                <ListProductPage limit={12} />
             </div>
             <ServicePage />
         </div>

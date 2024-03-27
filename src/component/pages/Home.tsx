@@ -10,7 +10,7 @@ const HomePage = () => {
                         <h2 className="section-heading__title">New</h2>
                     </div>
                     <div className="section-body">
-                        <ListProductPage limit={4} btn={false} />
+                        <ListProductPage limit={4} />
                     </div>
                 </div>
             </section>

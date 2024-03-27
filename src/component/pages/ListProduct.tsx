@@ -1,26 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { getApi } from "../config/axios";
+import { useState } from "react";
 import { IProduct } from "../../interfaces/IProduct";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import useHookQuery from "../hooks/useHookQuery";
+import { Link, useLocation } from "react-router-dom";
 
-const ListProductPage = (props: { limit: number, btn: boolean }) => {
-    const [page, setPage] = useState(1);
-    const pages = new URLSearchParams(location.search).get("page") || 1
-    useEffect(() => {
-        setPage(Number(pages))
-    }, [pages])
-    const limitPages = 4;
-    const { data, isLoading, isError, } = useQuery({
-        queryKey: ["PRODUCT_LIST"],
-        queryFn: async () => (await getApi(`products?_sort=id&_order=desc&_page=${pages}&_per_page=${limitPages}${props.limit == 0 ? "" : `&_limit=${props.limit}`}`)),
-    });
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error</div>;
+const ListProductPage = ({ limit }: { limit: number }) => {
+    const location = useLocation().pathname.split("/")[1]
+    const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1)
+    const { data, isLoading } = useHookQuery({ path: 'products', page: +page, limit: limit })
+    if (isLoading) return <div>Loading...</div>
     return (
         <div>
             <div className="product-list mb-8">
-                {data.map((item: IProduct, index: number) => (
+                {data && data.map((item: IProduct, index: number) => (
                     <div className="product-item" key={index}>
                         <div className="product-image">
                             <img src={item.thumbnail} alt={item.title} className="product__thumbnail h-[300px] object-cover" />
@@ -37,8 +28,8 @@ const ListProductPage = (props: { limit: number, btn: boolean }) => {
                             </div>
                         </div>
                         <div className="product-actions">
-                            <button className="btn product-action__quickview bg-white text-black"><a href="/detail">Quick View</a></button>
-                            <button className="btn product-action__addtocart bg-white text-black">Add To Cart</button>
+                            <button className="bg-white text-black"><Link to={`detail`}>Quick View</Link></button>
+                            <button className="bg-white text-black">Add To Cart</button>
                             <div className="product-actions-more">
                                 <span className="product-action__share">Share</span>
                                 <span className="product-action__compare mx-3">Compare</span>
@@ -48,14 +39,18 @@ const ListProductPage = (props: { limit: number, btn: boolean }) => {
                     </div>
                 ))}
             </div>
-            <div className={`btn-directional flex justify-center mb-12 mt-10 ${!props.btn && "hidden"}`}>
-                {Array.from({ length: Math.ceil(data.length / limitPages) }, (_, index) => (
-                    <Link to={`/shop?page=${index + 1}`} key={index}>
-                        <button key={index} className={`bg-[#F9F1E7] rounded py-4 px-6 items-center mx-2 ${index === Number(page) - 1 && "bg-[#B88E2F] text-white"}`}>
-                            {index + 1}
-                        </button>
-                    </Link>
-                ))}
+            <div className={`btn-directional flex justify-center mb-12 mt-12 ${location == "shop" ? "" : "hidden"}`}>
+                <Link to={`/shop?page=${Number(page) - 1}`}>
+                    <button onClick={() => setPage(Number(page) - 1)} className={`rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7] ${page == 1 && "hidden"}`}>
+                        Back
+                    </button>
+                </Link>
+                <button className="rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7]">{page}</button>
+                <Link to={`/shop?page=${Number(page) + 1}`}>
+                    <button onClick={() => setPage(Number(page) + 1)} className={`rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7] ${data.length < limit && "hidden"}`}>
+                        Next
+                    </button>
+                </Link>
             </div>
         </div>
     )

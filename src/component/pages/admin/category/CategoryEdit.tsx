@@ -1,50 +1,21 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useForm } from "react-hook-form"
-import { useNavigate, useParams } from "react-router-dom"
-import { ICategory } from "../../../../interfaces/ICategory"
-import { getApi, patchApi } from "../../../config/axios"
+import { useParams } from "react-router-dom"
 import { useEffect } from "react"
-
+import useHookQuery from "../../../hooks/useHookQuery"
+import useHookMutation from "../../../hooks/useCategoryMutation"
 
 const CategoryEdit = () => {
-    const navigate = useNavigate()
-    const id = useParams().id
-    const queryClient = useQueryClient()
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset
-    } = useForm<ICategory>()
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["CATEGORY_KEY", id],
-        queryFn: async () => await getApi(`categories/${id}`)
-    })
-    const { mutate, isPending } = useMutation({
-        mutationFn: async (category: ICategory) => await patchApi(`categories/${id}`, category),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["CATEGORY_KEY"],
-            })
-            navigate("/admin/category")
-        },
-        onError: (error) => {
-            console.log(error)
-        }
-    })
+    const { id } = useParams()
+    const { data } = useHookQuery({ path: 'category', id: Number(id) })
+    const { form, onSubmit, isPending } = useHookMutation('category', 'UPDATE')
     useEffect(() => {
         if (data) {
-            reset(data)
+            form.reset(data)
         }
-    }, [data, reset, id])
-    const onSubmit = (data: ICategory) => {
-        mutate(data)
-    }
-    if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error</div>
+    }, [data, form, id])
+
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
                         Category Name
@@ -52,10 +23,10 @@ const CategoryEdit = () => {
                     <input
                         type="text"
                         id="name"
-                        {...register("name", { required: true })}
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? 'border-red-500' : ''}`}
+                        {...form.register("name", { required: true })}
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.name ? 'border-red-500' : ''}`}
                     />
-                    {errors.name && <p className="text-red-500 text-xs italic">Category name is required</p>}
+                    {form.formState.errors.name && <p className="text-red-500 text-xs italic">Category name is required</p>}
                 </div>
                 <div className="mb-4">
                     <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
@@ -64,10 +35,10 @@ const CategoryEdit = () => {
                     <input
                         type="text"
                         id="image"
-                        {...register("image", { required: true })}
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.image ? 'border-red-500' : ''}`}
+                        {...form.register("image", { required: true })}
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.image ? 'border-red-500' : ''}`}
                     />
-                    {errors.image && <p className="text-red-500 text-xs italic">Category image is required</p>}
+                    {form.formState.errors.image && <p className="text-red-500 text-xs italic">Category image is required</p>}
                 </div>
                 <div className="mb-4">
                     <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
@@ -75,10 +46,10 @@ const CategoryEdit = () => {
                     </label>
                     <textarea
                         id="description"
-                        {...register("description", { required: true })}
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.description ? 'border-red-500' : ''}`}
+                        {...form.register("description", { required: true })}
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.description ? 'border-red-500' : ''}`}
                     />
-                    {errors.description && <p className="text-red-500 text-xs italic">Category description is required</p>}
+                    {form.formState.errors.description && <p className="text-red-500 text-xs italic">Category description is required</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button

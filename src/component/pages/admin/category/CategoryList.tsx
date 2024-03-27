@@ -1,25 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteApi, getApi } from "../../../config/axios";
 import { ICategory } from "../../../../interfaces/ICategory";
 import { Link } from "react-router-dom";
+import useHookQuery from "../../../hooks/useHookQuery";
+import useHookMutation from "../../../hooks/useCategoryMutation";
 
 const CategoryList = () => {
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError, } = useQuery({
-    queryKey: ["CATEGORY_LIST"],
-    queryFn: async () => (await getApi("categories?_sort=id&_order=desc")),
-  });
-  const { mutate } = useMutation({
-    mutationFn: async (id: number) => await deleteApi(`categories/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({
-      queryKey: ["CATEGORY_LIST"],
-    }),
-  });
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this category?")) mutate(id);
-  }
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
+  const { data, isLoading } = useHookQuery({ path: 'category' });
+  const { mutate, isPending } = useHookMutation('category', 'DELETE');
+  if (isLoading) return <div>Loading...</div>
   return (
     <div>
       <div className="flex justify-between">
@@ -53,15 +40,15 @@ const CategoryList = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((item: ICategory, index: number) => (
+          {data && data.map((item: ICategory, index: number) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
               <td className="px-6 py-4 whitespace-nowrap"><img src={item.image} alt={item.name} className="h-20" /></td>
               <td className="px-6 py-4 whitespace-nowrap">{item.description}</td>
               <td>
-                <button className="text-red-500 hover:text-red-700 mr-2" onClick={() => handleDelete(item.id!)}>
-                  Delete
+                <button className="text-red-500 hover:text-red-700 mr-2" onClick={() => mutate(item)}>
+                  {isPending ? "Loading..." : "Delete"}
                 </button>
                 <button className="text-yellow-500 hover:text-yellow-700">
                   <Link to={`/admin/category/${item.id}/edit`}>Edit</Link>

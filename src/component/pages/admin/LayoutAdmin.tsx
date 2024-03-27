@@ -2,8 +2,6 @@ import { Link, Outlet, useLocation } from "react-router-dom"
 
 const LayoutAdmin = () => {
     const location = useLocation().pathname.split("/")[2]
-    console.log(location);
-
     return (
         <div className="border-gray-100">
             <div className="p-4 border-gray-300 border-b-[1px] flex justify-between">
