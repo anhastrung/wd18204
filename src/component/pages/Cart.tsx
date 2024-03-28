@@ -1,7 +1,7 @@
 import { BannerPage, ServicePage } from "./Layout"
 const CartPage = () => {
     return (
-        <div className="font-['Poppins']">
+        <div>
             <BannerPage />
             <div className="container md:flex md:justify-between gap-8 py-12">
                 <table className='table-fixed w-full'>

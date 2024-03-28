@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom"
 import "./style.css"
 const Layout = () => {
     return (
-        <div>
+        <div className="font-['Poppins']">
             <header className="header">
                 <div className="container">
                     <div className="header-inner">

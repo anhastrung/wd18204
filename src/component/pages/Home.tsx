@@ -1,6 +1,8 @@
+import useHookQuery from "../hooks/useHookQuery"
 import { BannerPage, ServicePage } from "./Layout"
 import ListProductPage from "./ListProduct"
 const HomePage = () => {
+    const { data, isLoading } = useHookQuery({ path: 'products', limitProductOnPage: 4 })
     return (
         <div className="font-['Poppins']">
             <BannerPage />
@@ -10,7 +12,7 @@ const HomePage = () => {
                         <h2 className="section-heading__title">New</h2>
                     </div>
                     <div className="section-body">
-                        <ListProductPage limit={4} />
+                        {isLoading ? <div>Loading...</div> : <ListProductPage data={data} />}
                     </div>
                 </div>
             </section>

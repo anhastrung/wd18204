@@ -41,7 +41,7 @@ function App() {
             <Route path='add' element={<CategoryAdd />} />
             <Route path=':id/edit' element={<CategoryEdit />} />
           </Route>
-          <Route path='user'>
+          <Route path='users'>
             <Route path='' element={<UserList />} />
             <Route path='add' element={<UserAdd />} />
             <Route path=':id/edit' element={<UserEdit />} />

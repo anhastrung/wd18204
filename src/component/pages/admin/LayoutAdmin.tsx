@@ -1,14 +1,28 @@
 import { Link, Outlet, useLocation } from "react-router-dom"
+import { useLocalStorage } from "../../hooks/useStorage"
+import { useEffect } from "react"
+import NotFound from "../NotFound"
+import useHookQuery from "../../hooks/useHookQuery"
+import { IUser } from "../../../interfaces/IUser"
 
 const LayoutAdmin = () => {
     const location = useLocation().pathname.split("/")[2]
+    const [currentID, setCurrentID, removeCurrentID] = useLocalStorage('currentID', "")
+    const { data: user, isLoading } = useHookQuery({ path: 'users', id: currentID })
+    useEffect(() => {
+        setCurrentID(1)
+    }, [user, setCurrentID])
+    if (isLoading) return <div>Loading...</div>
+    if (!user.role || user.role < 1) {
+        return <NotFound />
+    }
     return (
         <div className="border-gray-100">
             <div className="p-4 border-gray-300 border-b-[1px] flex justify-between">
                 <h1 className="self-center text-lg font-bold">PH30810</h1>
                 <button className="flex items-center gap-2">
-                    <h2 className="text-sm">Name</h2>
-                    <img src="/public/keqing.png" className="w-8 rounded-3xl" />
+                    <h2 className="text-sm">{user?.name}</h2>
+                    <img src={user?.image} className="w-8 rounded-3xl" />
                 </button>
             </div>
             <div className="grid grid-cols-[10%,1fr]">
@@ -31,7 +45,7 @@ const LayoutAdmin = () => {
                         <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M0 96C0 60.7 28.7 32 64 32h96c88.4 0 160 71.6 160 160s-71.6 160-160 160H64v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V320 96zM64 288h96c53 0 96-43 96-96s-43-96-96-96H64V288z" /></svg>
                         <h3>Product</h3>
                     </Link>
-                    <Link to={'/admin/user'} className={`px-4 py-3 flex gap-1 place-items-center text-gray-500 ${location == "user" && "bg-gray-100"}`}>
+                    <Link to={'/admin/users'} className={`px-4 py-3 flex gap-1 place-items-center text-gray-500 ${location == "users" && "bg-gray-100"}`}>
                         <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M320 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM204.5 121.3c-5.4-2.5-11.7-1.9-16.4 1.7l-40.9 30.7c-14.1 10.6-34.2 7.7-44.8-6.4s-7.7-34.2 6.4-44.8l40.9-30.7c23.7-17.8 55.3-21 82.1-8.4l90.4 42.5c29.1 13.7 36.8 51.6 15.2 75.5L299.1 224h97.4c30.3 0 53 27.7 47.1 57.4L415.4 422.3c-3.5 17.3-20.3 28.6-37.7 25.1s-28.6-20.3-25.1-37.7L377 288H306.7c8.6 19.6 13.3 41.2 13.3 64c0 88.4-71.6 160-160 160S0 440.4 0 352s71.6-160 160-160c11.1 0 22 1.1 32.4 3.3l54.2-54.2-42.1-19.8zM160 448a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" /></svg>
                         <h3>User</h3>
                     </Link>
@@ -41,7 +55,7 @@ const LayoutAdmin = () => {
                     </Link>
                 </div>
                 <div className="p-6 bg-gray-100">
-                    <div className="h-screen bg-white p-6"><Outlet /></div>
+                    <div className="h-screen bg-white p-6"><Outlet context={{ user } satisfies { user: IUser }} /></div>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { BannerPage, ServicePage } from "./Layout"
 
 const CheckOut = () => {
     return (
-        <div className="font-['Poppins']">
+        <div>
             {<BannerPage />}
             <section className="container">
                 <div className="Billing_Details">

@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { getApi } from "../services/crud";
-
-const useHookQuery = ({ path, page, limit, id }: { path: string, page?: number, limit?: number, id?: number }) => {
+type props = {
+    path: string,
+    limitProductOnPage?: number,
+    id?: number
+}
+const useHookQuery = ({ path, limitProductOnPage, id }: props) => {
     const { data, ...rest } = useQuery({
-        queryKey: [path, page, limit, id],
+        queryKey: [path, limitProductOnPage, id],
         queryFn: async () => {
-            if (page && limit! > 0) {
-                return await getApi(`${path}?_sort=id&_order=desc&_start=${(page - 1) * limit!}&_limit=${limit}`)
-            }
-            if (limit! > 0) {
-                return await getApi(`${path}?_sort=id&_order=desc&_limit=${limit}`)
+            if (limitProductOnPage! > 0) {
+                return await getApi(`${path}?_sort=id&_order=desc&_limit=${limitProductOnPage}`)
             }
             if (id) {
-                return await getApi(`${path}/${id}?_sort=id&_order=desc`)
+                return await getApi(`${path}/${id}`)
             }
             return await getApi(`${path}?_sort=id&_order=desc`)
         }

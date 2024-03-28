@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import useHookQuery from "../../../hooks/useHookQuery"
-import useHookMutation from "../../../hooks/useCategoryMutation"
+import useHookMutation from "../../../hooks/useHookMutation"
 
 const CategoryEdit = () => {
     const { id } = useParams()

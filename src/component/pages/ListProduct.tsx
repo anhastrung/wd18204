@@ -1,13 +1,7 @@
-import { useState } from "react";
 import { IProduct } from "../../interfaces/IProduct";
-import useHookQuery from "../hooks/useHookQuery";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const ListProductPage = ({ limit }: { limit: number }) => {
-    const location = useLocation().pathname.split("/")[1]
-    const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1)
-    const { data, isLoading } = useHookQuery({ path: 'products', page: +page, limit: limit })
-    if (isLoading) return <div>Loading...</div>
+const ListProductPage = ({ data }: { data: IProduct[] }) => {
     return (
         <div>
             <div className="product-list mb-8">
@@ -23,12 +17,12 @@ const ListProductPage = ({ limit }: { limit: number }) => {
                             </h3>
                             <a href="" className="product__category">{item.category}</a>
                             <div className="">
-                                <span className={`text-xl text-[##3A3A3A] font-semibold`}>{item.price - (item.price * item.discountPercentage / 100)}$</span>
-                                <span className={`text-[#B0B0B0] ml-4 line-through ${item.discountPercentage == 0 && "hidden"}`}>{item.price}đ</span>
+                                <span className={`text-xl text-[##3A3A3A] font-semibold`}>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item.price - (item.price * item.discountPercentage / 100))}</span>
+                                <span className={`text-[#B0B0B0] ml-4 line-through ${item.discountPercentage == 0 && "hidden"}`}>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item.price)}</span>
                             </div>
                         </div>
                         <div className="product-actions">
-                            <button className="bg-white text-black"><Link to={`detail`}>Quick View</Link></button>
+                            <button className="bg-white text-black"><Link to={`/detail/${item.id}`}>Quick View</Link></button>
                             <button className="bg-white text-black">Add To Cart</button>
                             <div className="product-actions-more">
                                 <span className="product-action__share">Share</span>
@@ -39,19 +33,7 @@ const ListProductPage = ({ limit }: { limit: number }) => {
                     </div>
                 ))}
             </div>
-            <div className={`btn-directional flex justify-center mb-12 mt-12 ${location == "shop" ? "" : "hidden"}`}>
-                <Link to={`/shop?page=${Number(page) - 1}`}>
-                    <button onClick={() => setPage(Number(page) - 1)} className={`rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7] ${page == 1 && "hidden"}`}>
-                        Back
-                    </button>
-                </Link>
-                <button className="rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7]">{page}</button>
-                <Link to={`/shop?page=${Number(page) + 1}`}>
-                    <button onClick={() => setPage(Number(page) + 1)} className={`rounded py-4 px-6 items-center mx-2 bg-[#F9F1E7] ${data.length < limit && "hidden"}`}>
-                        Next
-                    </button>
-                </Link>
-            </div>
+
         </div>
     )
 }

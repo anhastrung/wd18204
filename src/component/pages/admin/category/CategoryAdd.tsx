@@ -1,4 +1,4 @@
-import useHookMutation from "../../../hooks/useCategoryMutation"
+import useHookMutation from "../../../hooks/useHookMutation"
 
 const CategoryAdd = () => {
     const { form, onSubmit, isPending } = useHookMutation('category', 'CREATE')
