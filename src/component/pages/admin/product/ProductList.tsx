@@ -3,11 +3,12 @@ import useHookQuery from "../../../hooks/useHookQuery";
 import useHookMutation from "../../../hooks/useHookMutation";
 import { IProduct } from "../../../../interfaces/IProduct";
 import PageButton from "../../PageButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { successMessage } from "../../../hooks/useMessage";
 
 const ProductList = () => {
   const { data, isLoading } = useHookQuery({ path: 'products' })
-  const { mutate, isPending } = useHookMutation('products', 'DELETE');
+  const { mutate, isPending, isSuccess } = useHookMutation('products', 'DELETE', '/admin/products');
   // button change page
   const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
   const limit = 6
@@ -16,6 +17,11 @@ const ProductList = () => {
   const currentData = data?.slice(indexOFirstRecord, indexOLastRecord)
   const nPage = Math.ceil(data?.length / limit)
   // end button change page
+  useEffect(() => {
+    if (isSuccess) {
+      successMessage('Product deleted successfully!')
+    }
+  }, [isSuccess])
   if (isLoading) return <div>Loading...</div>
   return (
     <div>
@@ -72,7 +78,7 @@ const ProductList = () => {
           ))}
         </tbody>
       </table>
-      {<PageButton nPage={nPage} page={page} setPage={setPage} />}
+      {nPage > 1 && <PageButton nPage={nPage} page={page} setPage={setPage} />}
     </div >
   );
 };

@@ -1,7 +1,19 @@
+import { useEffect } from "react"
+import { IUser } from "../../../../interfaces/IUser"
 import useHookMutation from "../../../hooks/useHookMutation"
+import useHookQuery from "../../../hooks/useHookQuery"
+import { successMessage } from "../../../hooks/useMessage"
 
 const UserAdd = () => {
-  const { form, onSubmit, isPending } = useHookMutation('users', 'CREATE')
+  const { form, onSubmit, isPending, isSuccess } = useHookMutation('users', 'CREATE', '/admin/users')
+  const { data, isLoading } = useHookQuery({ path: 'users' })
+  form.setValue('active', true)
+  useEffect(() => {
+    if (isSuccess) {
+      successMessage('User added successfully!')
+    }
+  }, [isSuccess])
+  if (isLoading) return <div>Loading...</div>
   return (
     <div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">
@@ -12,10 +24,10 @@ const UserAdd = () => {
           <input
             type="text"
             id="name"
-            {...form.register("name", { required: true })}
+            {...form.register("name", { required: "Name is required" })}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.name ? 'border-red-500' : ''}`}
           />
-          {form.formState.errors.name && <p className="text-red-500 text-xs italic">Name is required</p>}
+          {form.formState.errors.name && <p className="text-red-500 text-xs italic">{form.formState.errors.name.message}</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
@@ -24,10 +36,22 @@ const UserAdd = () => {
           <input
             type="email"
             id="email"
-            {...form.register("email", { required: true })}
+            {...form.register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: 'Invalid email address',
+              },
+              validate: async (value) => {
+                const isExist = data?.find((item: IUser) => item.email === value)
+                if (isExist) {
+                  return 'Email already exist'
+                }
+              }
+            })}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.email ? 'border-red-500' : ''}`}
           />
-          {form.formState.errors.email && <p className="text-red-500 text-xs italic">Email is required</p>}
+          {form.formState.errors.email && <p className="text-red-500 text-xs italic">{form.formState.errors.email.message}</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
@@ -36,10 +60,10 @@ const UserAdd = () => {
           <input
             type="text"
             id="password"
-            {...form.register("password", { required: true })}
+            {...form.register("password", { required: "Password is required", pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: 'Minimum eight characters, at least one letter and one number' } })}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.password ? 'border-red-500' : ''}`}
           />
-          {form.formState.errors.password && <p className="text-red-500 text-xs italic">Password is required</p>}
+          {form.formState.errors.password && <p className="text-red-500 text-xs italic">{form.formState.errors.password.message}</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
@@ -47,10 +71,10 @@ const UserAdd = () => {
           </label>
           <input
             id="image"
-            {...form.register("image", { required: true })}
+            {...form.register("image", { required: "Image is required" })}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.image ? 'border-red-500' : ''}`}
           />
-          {form.formState.errors.image && <p className="text-red-500 text-xs italic">Image is required</p>}
+          {form.formState.errors.image && <p className="text-red-500 text-xs italic">{form.formState.errors.image.message}</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="role" className="block text-gray-700 text-sm font-bold mb-2">
@@ -58,13 +82,13 @@ const UserAdd = () => {
           </label>
           <select
             id="role"
-            {...form.register("role", { required: true })}
+            {...form.register("role", { required: "Role is required" })}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.role ? 'border-red-500' : ''}`}
           >
             <option value="0">User</option>
             <option value="1">Admin</option>
           </select>
-          {form.formState.errors.role && <p className="text-red-500 text-xs italic">Role is required</p>}
+          {form.formState.errors.role && <p className="text-red-500 text-xs italic">{form.formState.errors.role.message}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button

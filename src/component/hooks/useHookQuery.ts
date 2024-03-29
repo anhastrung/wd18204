@@ -3,9 +3,10 @@ import { getApi } from "../services/crud";
 type props = {
     path: string,
     limitProductOnPage?: number,
-    id?: number
+    id?: number,
+    mustHaveID?: boolean
 }
-const useHookQuery = ({ path, limitProductOnPage, id }: props) => {
+const useHookQuery = ({ path, limitProductOnPage, id, mustHaveID }: props) => {
     const { data, ...rest } = useQuery({
         queryKey: [path, limitProductOnPage, id],
         queryFn: async () => {
@@ -14,6 +15,9 @@ const useHookQuery = ({ path, limitProductOnPage, id }: props) => {
             }
             if (id) {
                 return await getApi(`${path}/${id}`)
+            }
+            if (mustHaveID && !id) {
+                return null
             }
             return await getApi(`${path}?_sort=id&_order=desc`)
         }

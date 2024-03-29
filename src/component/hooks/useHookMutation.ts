@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from './../../interfaces/IUser';
 import { ICategory } from './../../interfaces/ICategory';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -22,9 +23,9 @@ type IForm = {
     email: string;
     password: string;
     role: number;
-    active: boolean | true;
+    active: true;
 }
-const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", notReload?: boolean) => {
+const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", navigatePage: string) => {
     const queryClient = useQueryClient()
     const form = useForm<IForm>()
     const navigate = useNavigate()
@@ -45,8 +46,8 @@ const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", n
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            if (!notReload) {
-                navigate(`/admin/${path}`)
+            if (navigatePage != 'none') {
+                navigate(navigatePage)
             }
         },
         onError: (error) => {

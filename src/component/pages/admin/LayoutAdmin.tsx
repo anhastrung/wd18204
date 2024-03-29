@@ -1,21 +1,16 @@
-import { Link, Outlet, useLocation } from "react-router-dom"
-import { useLocalStorage } from "../../hooks/useStorage"
-import { useEffect } from "react"
-import NotFound from "../NotFound"
-import useHookQuery from "../../hooks/useHookQuery"
-import { IUser } from "../../../interfaces/IUser"
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
+import { useContext, useEffect } from "react"
+import { UserContext } from "../../contexts/UserContextProvider"
 
 const LayoutAdmin = () => {
     const location = useLocation().pathname.split("/")[2]
-    const [currentID, setCurrentID, removeCurrentID] = useLocalStorage('currentID', "")
-    const { data: user, isLoading } = useHookQuery({ path: 'users', id: currentID })
+    const { user } = useContext(UserContext)
+    const navigate = useNavigate()
     useEffect(() => {
-        setCurrentID(1)
-    }, [user, setCurrentID])
-    if (isLoading) return <div>Loading...</div>
-    if (!user.role || user.role < 1) {
-        return <NotFound />
-    }
+        if (!user || !user.active || user.role < 1) {
+            navigate('/')
+        }
+    }, [user, navigate])
     return (
         <div className="border-gray-100">
             <div className="p-4 border-gray-300 border-b-[1px] flex justify-between">
@@ -55,7 +50,9 @@ const LayoutAdmin = () => {
                     </Link>
                 </div>
                 <div className="p-6 bg-gray-100">
-                    <div className="h-screen bg-white p-6"><Outlet context={{ user } satisfies { user: IUser }} /></div>
+                    <div className="h-screen bg-white p-6">
+                        <Outlet />
+                    </div>
                 </div>
             </div>
         </div>

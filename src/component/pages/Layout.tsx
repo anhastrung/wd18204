@@ -1,6 +1,9 @@
 import { Link, Outlet } from "react-router-dom"
 import "./style.css"
+import { UserContext } from "../contexts/UserContextProvider"
+import { useContext } from "react"
 const Layout = () => {
+    const { user } = useContext(UserContext)
     return (
         <div className="font-['Poppins']">
             <header className="header">
@@ -18,20 +21,29 @@ const Layout = () => {
                                 <li className="main-menu__item"><Link to="/contact" className="main-menu__link">Contact</Link></li>
                             </ul>
                         </nav>
-                        <div className="header-items">
-                            <div className="header-item-user">
-                                <Link to="/admin"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></Link>
+                        {user && user.active ?
+                            (<div className="header-items">
+                                <div className="header-item-user mt-2">
+                                    <Link to="/admin"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></Link>
+                                </div>
+                                <div className="header-item-user mt-2">
+                                    <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
+                                </div>
+                                <div className="header-item-user mt-2">
+                                    <Link to="/fav"><span><img src="/src/assets/akar-icons_heart.png" /></span></Link>
+                                </div>
+                                <div className="header-item-user mt-2">
+                                    <Link to="/cart"><span><img src="/src/assets/ant-design_shopping-cart-outlined.png" /></span></Link>
+                                </div>
+                            </div>)
+                            :
+                            (<div className="header-items">
+                                <div className="header-item-user mt-2">
+                                    <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
+                                </div>
+                                <Link to='/login'><button type="button" className="header-item-user focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Login</button></Link>
                             </div>
-                            <div className="header-item-user">
-                                <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
-                            </div>
-                            <div className="header-item-user">
-                                <Link to="/fav"><span><img src="/src/assets/akar-icons_heart.png" /></span></Link>
-                            </div>
-                            <div className="header-item-user">
-                                <Link to="/cart"><span><img src="/src/assets/ant-design_shopping-cart-outlined.png" /></span></Link>
-                            </div>
-                        </div>
+                            )}
                     </div>
                 </div>
             </header>

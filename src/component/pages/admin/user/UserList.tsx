@@ -1,15 +1,15 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useHookQuery from "../../../hooks/useHookQuery";
 import PageButton from "../../PageButton";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IUser } from "../../../../interfaces/IUser";
 import useHookMutation from "../../../hooks/useHookMutation";
+import { UserContext } from "../../../contexts/UserContextProvider";
+import { successMessage } from "../../../hooks/useMessage";
 
 const UserList = () => {
   const { data, isLoading } = useHookQuery({ path: 'users' })
-  const { mutate } = useHookMutation('users', 'UPDATE', true);
-  const { user }: { user: IUser } = useOutletContext()
-
+  const { mutate } = useHookMutation('users', 'UPDATE', 'none');
   // button change page
   const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
   const limit = 6
@@ -18,6 +18,7 @@ const UserList = () => {
   const currentData = data?.slice(indexOFirstRecord, indexOLastRecord)
   const nPage = Math.ceil(data?.length / limit)
   // end button change page
+  const { user } = useContext(UserContext)
   if (isLoading) return <div>Loading...</div>
   return (
     <div>
@@ -73,7 +74,7 @@ const UserList = () => {
               </td>
               <td>
                 <label className={`items-center ${user?.role <= item.role ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                  <input type="checkbox" value="" className="sr-only peer" defaultChecked={item.active && true} onClick={() => mutate({ ...item, active: !item.active })} disabled={user?.role <= item.role && true} />
+                  <input type="checkbox" value="" className="sr-only peer" defaultChecked={item.active && true} onClick={() => { mutate({ ...item, active: !item.active }), successMessage('User updated successfully!') }} disabled={user?.role <= item.role && true} />
                   <div className="relative ml-6 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                 </label>
               </td>
@@ -81,7 +82,7 @@ const UserList = () => {
           ))}
         </tbody>
       </table>
-      {<PageButton nPage={nPage} page={page} setPage={setPage} />}
+      {nPage > 1 && <PageButton nPage={nPage} page={page} setPage={setPage} />}
     </div >
   );
 };

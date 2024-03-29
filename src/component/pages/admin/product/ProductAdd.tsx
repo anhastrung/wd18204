@@ -1,10 +1,17 @@
+import { useEffect } from "react"
 import { ICategory } from "../../../../interfaces/ICategory"
 import useHookMutation from "../../../hooks/useHookMutation"
 import useHookQuery from "../../../hooks/useHookQuery"
+import { successMessage } from "../../../hooks/useMessage"
 
 const ProductAdd = () => {
-  const { form, onSubmit, isPending } = useHookMutation('products', 'CREATE')
+  const { form, onSubmit, isPending, isSuccess } = useHookMutation('products', 'CREATE', '/admin/products')
   const { data: category, isLoading } = useHookQuery({ path: 'category' })
+  useEffect(() => {
+    if (isSuccess) {
+      successMessage('Product added successfully!')
+    }
+  }, [isSuccess])
   return (
     <div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">

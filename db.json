@@ -23,8 +23,8 @@
       "name": "User",
       "email": "mikejohnson@example.com",
       "password": "password789",
-      "image": "https://cdn.example.com/images/mikejohnson.jpg",
-      "role": "0",
+      "image": "/public/keqing.png",
+      "role": 0,
       "active": true
     }
   ],

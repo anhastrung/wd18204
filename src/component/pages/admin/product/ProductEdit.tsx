@@ -3,11 +3,12 @@ import { ICategory } from "../../../../interfaces/ICategory"
 import useHookMutation from "../../../hooks/useHookMutation"
 import useHookQuery from "../../../hooks/useHookQuery"
 import { useParams } from "react-router-dom"
+import { successMessage } from "../../../hooks/useMessage"
 
 const ProductEdit = () => {
   const { id } = useParams()
   const { data } = useHookQuery({ path: 'products', id: Number(id) })
-  const { form, onSubmit, isPending } = useHookMutation('products', 'UPDATE')
+  const { form, onSubmit, isPending, isSuccess } = useHookMutation('products', 'UPDATE', '/admin/products')
   console.log(data);
 
   useEffect(() => {
@@ -16,7 +17,11 @@ const ProductEdit = () => {
     }
   }, [data, form, id])
   const { data: category, isLoading } = useHookQuery({ path: 'category' })
-
+  useEffect(() => {
+    if (isSuccess) {
+      successMessage('Product updated successfully!')
+    }
+  }, [isSuccess])
   return (
     <div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">

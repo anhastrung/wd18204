@@ -2,12 +2,18 @@ import { ICategory } from "../../../../interfaces/ICategory";
 import { Link } from "react-router-dom";
 import useHookQuery from "../../../hooks/useHookQuery";
 import useHookMutation from "../../../hooks/useHookMutation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageButton from "../../PageButton";
+import { successMessage } from "../../../hooks/useMessage";
 
 const CategoryList = () => {
   const { data, isLoading } = useHookQuery({ path: 'category' });
-  const { mutate, isPending } = useHookMutation('category', 'DELETE');
+  const { mutate, isPending, isSuccess } = useHookMutation('category', 'DELETE', '/admin/categories');
+  useEffect(() => {
+    if (isSuccess) {
+      successMessage('Category deleted successfully!')
+    }
+  }, [isSuccess])
   // button change page
   const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
   const limit = 6
@@ -68,7 +74,7 @@ const CategoryList = () => {
           ))}
         </tbody>
       </table>
-      {<PageButton nPage={nPage} page={page} setPage={setPage} />}
+      {nPage > 1 && <PageButton nPage={nPage} page={page} setPage={setPage} />}
     </div >
   );
 };

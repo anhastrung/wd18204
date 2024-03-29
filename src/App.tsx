@@ -17,10 +17,20 @@ import UserAdd from './component/pages/admin/user/UserAdd'
 import UserEdit from './component/pages/admin/user/UserEdit'
 import DashBoard from './component/pages/admin/DashBoard'
 import NotFound from './component/pages/NotFound'
-
+import LoginPage from './component/pages/LoginPage/LoginPage'
+import { UserContext } from './component/contexts/UserContextProvider'
+import { useContext, useEffect } from 'react'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 function App() {
+  const { user, setCurrentID, removeCurrentID } = useContext(UserContext)
+  useEffect(() => {
+    setCurrentID(1)
+    // removeCurrentID()
+  }, [])
   return (
     <>
+      <ToastContainer limit={3} newestOnTop={true} />
       <Routes>
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />
@@ -28,6 +38,7 @@ function App() {
           <Route path='cart' element={<CartPage />} />
           <Route path='detail/:id' element={<DetailPage />} />
           <Route path='checkout' element={<CheckOut />} />
+          <Route path='login' element={<LoginPage />} />
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
           <Route path='' element={<DashBoard />} />

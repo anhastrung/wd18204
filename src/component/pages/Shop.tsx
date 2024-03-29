@@ -19,7 +19,7 @@ const ShopPage = () => {
             <BannerPage />
             <div className="container pt-12">
                 {isLoading ? <div>Loading...</div> : <ListProductPage data={currentData} />}
-                {!isLoading && <PageButton nPage={nPage} page={page} setPage={setPage} />}
+                {nPage > 1 && <PageButton nPage={nPage} page={page} setPage={setPage} />}
             </div>
             <ServicePage />
         </div>
