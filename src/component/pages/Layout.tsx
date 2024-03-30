@@ -3,7 +3,7 @@ import "./style.css"
 import { UserContext } from "../contexts/UserContextProvider"
 import { useContext } from "react"
 const Layout = () => {
-    const { user } = useContext(UserContext)
+    const { user, removeCurrentID } = useContext(UserContext)
     return (
         <div className="font-['Poppins']">
             <header className="header">
@@ -27,7 +27,7 @@ const Layout = () => {
                                     <Link to="/admin"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></Link>
                                 </div>
                                 <div className="header-item-user mt-2">
-                                    <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
+                                    <button onClick={removeCurrentID}><span><img src="/src/assets/akar-icons_search.png" /></span></button>
                                 </div>
                                 <div className="header-item-user mt-2">
                                     <Link to="/fav"><span><img src="/src/assets/akar-icons_heart.png" /></span></Link>

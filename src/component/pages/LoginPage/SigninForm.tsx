@@ -1,9 +1,37 @@
-import { useState } from "react";
-
+import { ChangeEvent, useContext, useState } from "react";
+import useHookQuery from "../../hooks/useHookQuery";
+import { errorMessage, successMessage, warningMessage } from "../../hooks/useMessage";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContextProvider";
+type IForm = {
+  email: string;
+  password: string;
+}
 const SigninForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const { data, isLoading } = useHookQuery({ path: 'users' })
+  const { setCurrentID } = useContext(UserContext)
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: ''
+  })
+  const onHandleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setLoginForm({
+      ...loginForm,
+      [name]: value
+    })
+  }
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const user = data?.find((item: IForm) => item.email === loginForm.email && item.password === loginForm.password)
+    if (user) {
+      successMessage('Đăng nhập thành công!', 'top-right')
+      setCurrentID(user.id)
+    } else {
+      errorMessage('nói chung là, sai mật khẩu!', 'bottom-left')
+    }
+  }
+  if (isLoading) return <div>Loading...</div>
   return (
     <div className="selection:bg-indigo-500 selection:text-white">
       <div className="flex justify-center items-center">
@@ -14,12 +42,13 @@ const SigninForm = () => {
                 Welcome back!
               </h1>
 
-              <form className="mt-12" action="" method="POST">
+              <form className="mt-12" onSubmit={onSubmit}>
                 <div className="relative">
                   <input
                     id="signin-email"
                     name="email"
                     type="text"
+                    onChange={onHandleChange}
                     className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                     placeholder="john@doe.com"
                   />
@@ -35,6 +64,7 @@ const SigninForm = () => {
                     id="signin-password"
                     type="password"
                     name="password"
+                    onChange={onHandleChange}
                     className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                     placeholder="Password"
                   />
@@ -52,13 +82,9 @@ const SigninForm = () => {
                   className="mt-20 px-8 py-4 uppercase rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-center block w-full focus:outline-none focus:ring focus:ring-offset-2 focus:ring-indigo-500 focus:ring-opacity-80 cursor-pointer"
                 />
               </form>
-              <a
-                href="#"
-                className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {" "}
-                Forgot your password?{" "}
-              </a>
+              <Link to="/login" onClick={() => warningMessage('CÓ CÁI MẬT KHẨU MÀ CŨNG QUÊN?', 'bottom-left')} className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                {" "}Forgot your password?{" "}
+              </Link>
             </div>
           </div>
         </div>

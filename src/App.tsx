@@ -18,19 +18,12 @@ import UserEdit from './component/pages/admin/user/UserEdit'
 import DashBoard from './component/pages/admin/DashBoard'
 import NotFound from './component/pages/NotFound'
 import LoginPage from './component/pages/LoginPage/LoginPage'
-import { UserContext } from './component/contexts/UserContextProvider'
-import { useContext, useEffect } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 function App() {
-  const { user, setCurrentID, removeCurrentID } = useContext(UserContext)
-  useEffect(() => {
-    setCurrentID(1)
-    // removeCurrentID()
-  }, [])
   return (
     <>
-      <ToastContainer limit={3} newestOnTop={true} />
+      <ToastContainer limit={1} newestOnTop={true} />
       <Routes>
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />

@@ -1,8 +1,12 @@
-import { Bounce, toast } from "react-toastify";
-
-export const successMessage = (message: string) => {
+import { Bounce, ToastPosition, TypeOptions, toast } from "react-toastify";
+// type IToast = {
+//     message: string;
+//     type: TypeOptions | undefined;
+//     position?: ToastPosition | "bottom-right";
+// }
+export const successMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.success(message, {
-        position: "bottom-right",
+        position: position,
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -12,4 +16,93 @@ export const successMessage = (message: string) => {
         theme: "dark",
         transition: Bounce,
     });
+}
+
+export const errorMessage = (message: string, position?: ToastPosition | "bottom-right") => {
+    return toast.error(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
+
+export const infoMessage = (message: string, position?: ToastPosition | "bottom-right") => {
+    return toast.info(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
+
+export const warningMessage = (message: string, position?: ToastPosition | "bottom-right") => {
+    return toast.warning(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
+
+export const darkMessage = (message: string, position?: ToastPosition | "bottom-right") => {
+    return toast.dark(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
+
+export const defaultMessage = (message: string, position?: ToastPosition | "bottom-right") => {
+    return toast(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+}
+
+export const customMessage = (message: string, type: TypeOptions | undefined, position?: ToastPosition | "bottom-right") => {
+    return toast(message, {
+        position: position,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        type: type,
+    });
+}
+
+export const clearMessage = () => {
+    toast.dismiss();
 }

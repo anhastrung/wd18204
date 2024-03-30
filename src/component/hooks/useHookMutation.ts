@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IUser } from './../../interfaces/IUser';
-import { ICategory } from './../../interfaces/ICategory';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { postApi, patchApi, deleteApi } from "../services/crud"
-import { IProduct } from "../../interfaces/IProduct"
 type IForm = {
+    id: number;
     title: string;
     price: number;
     discountPercentage: number;
@@ -25,12 +23,13 @@ type IForm = {
     role: number;
     active: true;
 }
+
 const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", navigatePage: string) => {
     const queryClient = useQueryClient()
     const form = useForm<IForm>()
     const navigate = useNavigate()
     const { mutate, ...rest } = useMutation({
-        mutationFn: async (data: IUser | IProduct | ICategory) => {
+        mutationFn: async (data: IForm) => {
             if (action === "CREATE") {
                 return await postApi(path, data)
             } else if (action === "UPDATE") {
@@ -39,6 +38,8 @@ const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", n
                 if (confirm(`Are you sure to delete this ${path}?`)) {
                     return await deleteApi(`${path}/${data.id}`)
                 }
+            } else if (action === "Login") {
+                return await postApi(path, data)
             }
             return null
         },
@@ -54,7 +55,7 @@ const useHookMutation = (path: string, action: "CREATE" | "UPDATE" | "DELETE", n
             console.log(error)
         }
     })
-    const onSubmit = (data: ICategory | IProduct | IUser) => {
+    const onSubmit = (data: IForm) => {
         mutate(data)
     }
     return { mutate, form, onSubmit, ...rest }

@@ -14,6 +14,7 @@ const SignupForm = ({ setIsAnimated }: any) => {
       successMessage('Account created successfully!')
     }
   }, [isSuccess, setIsAnimated, form])
+
   form.setValue('role', 0)
   form.setValue('active', true)
   if (isLoading) return <div>Loading...</div>
