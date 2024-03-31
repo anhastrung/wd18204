@@ -31,7 +31,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
             refetch()
             setTimeout(() => {
                 setTimer(0)
-            }, 1000)
+            }, 3000)
         }
     }
     return (
