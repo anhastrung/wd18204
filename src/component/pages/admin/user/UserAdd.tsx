@@ -1,18 +1,11 @@
-import { useEffect } from "react"
 import { IUser } from "../../../../interfaces/IUser"
-import useHookMutation from "../../../hooks/useHookMutation"
 import useHookQuery from "../../../hooks/useHookQuery"
-import { successMessage } from "../../../hooks/useMessage"
+import { useUserMutation } from "../../../hooks/useHookMutation"
 
 const UserAdd = () => {
-  const { form, onSubmit, isPending, isSuccess } = useHookMutation('users', 'CREATE', '/admin/users')
+  const { form, onSubmit, isPending } = useUserMutation('CREATE', '/admin/users', 'Add User Success!')
   const { data, isLoading } = useHookQuery({ path: 'users' })
   form.setValue('active', true)
-  useEffect(() => {
-    if (isSuccess) {
-      successMessage('User added successfully!')
-    }
-  }, [isSuccess])
   if (isLoading) return <div>Loading...</div>
   return (
     <div>

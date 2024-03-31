@@ -1,23 +1,17 @@
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import useHookQuery from "../../../hooks/useHookQuery"
-import useHookMutation from "../../../hooks/useHookMutation"
-import { successMessage } from "../../../hooks/useMessage"
+import { useCategoryMutation } from "../../../hooks/useHookMutation"
 
 const CategoryEdit = () => {
     const { id } = useParams()
     const { data } = useHookQuery({ path: 'category', id: Number(id) })
-    const { form, onSubmit, isPending, isSuccess } = useHookMutation('category', 'UPDATE', '/admin/categories')
+    const { form, onSubmit, isPending } = useCategoryMutation('UPDATE', '/admin/category', 'Edit Category Success!')
     useEffect(() => {
         if (data) {
             form.reset(data)
         }
     }, [data, form, id])
-    useEffect(() => {
-        if (isSuccess) {
-            successMessage('Category updated successfully!')
-        }
-    }, [isSuccess])
     return (
         <div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">

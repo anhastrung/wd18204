@@ -1,9 +1,26 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import "./style.css"
 import { UserContext } from "../contexts/UserContextProvider"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 const Layout = () => {
     const { user, removeCurrentID } = useContext(UserContext)
+    const navigate = useNavigate()
+    const [open, setOpen] = useState(false)
+    const [confirm, setConfirm] = useState(false)
+    useEffect(() => {
+        if (open == false) {
+            setConfirm(false)
+        }
+    }, [open])
+    const onLogOut = () => {
+        if (!confirm) {
+            setConfirm(true)
+            return
+        }
+        setOpen(false)
+        removeCurrentID()
+        navigate('/')
+    }
     return (
         <div className="font-['Poppins']">
             <header className="header">
@@ -23,8 +40,24 @@ const Layout = () => {
                         </nav>
                         {user && user.active ?
                             (<div className="header-items">
-                                <div className="header-item-user mt-2">
-                                    <Link to="/admin"><span><img src="/src/assets/mdi_account-alert-outline.png" /></span></Link>
+                                <div className="header-item-user mt-2 relative">
+                                    <button className="item.start" onClick={() => setOpen(!open)}>
+                                        <img src='/src/assets/mdi_account-alert-outline.png' />
+                                    </button>
+                                    <div className={`absolute font-[segoe script] shadow-md bg-white top-10 left-[-85px] rounded-md w-[200px] mt-4 p-4 rounded-xl ${!open && "hidden"}`}>
+                                        <div className="flex justify-center border-gray-400 border-b-[1px] pb-3 mb-2">
+                                            <div className="flex items-center gap-2">
+                                                <img src={user?.image} className="w-8 rounded-3xl" />
+                                                <h2 className="text-lg text-black">{user?.name}</h2>
+                                            </div>
+                                        </div>
+                                        <ul className='text-center'>
+                                            {user.role >= 1 && <li className="hover:text-red-400"><Link to='/admin'>Admin Dashboard</Link></li>}
+                                            <li className="hover:text-red-400"><Link to='/profile'>Cập nhật thông tin</Link></li>
+                                            <li className="hover:text-red-400"><Link to='/change-password'>Đổi mật khẩu</Link></li>
+                                            <li className="hover:text-red-400"><button onClick={onLogOut}>{confirm ? "Xác Nhận Đăng Xuất" : "Đăng Xuất"}</button></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div className="header-item-user mt-2">
                                     <button onClick={removeCurrentID}><span><img src="/src/assets/akar-icons_search.png" /></span></button>

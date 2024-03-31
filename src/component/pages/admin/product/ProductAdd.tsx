@@ -1,17 +1,11 @@
-import { useEffect } from "react"
 import { ICategory } from "../../../../interfaces/ICategory"
-import useHookMutation from "../../../hooks/useHookMutation"
 import useHookQuery from "../../../hooks/useHookQuery"
-import { successMessage } from "../../../hooks/useMessage"
+import { useProductMutation } from "../../../hooks/useHookMutation"
 
 const ProductAdd = () => {
-  const { form, onSubmit, isPending, isSuccess } = useHookMutation('products', 'CREATE', '/admin/products')
+  const { form, onSubmit, isPending } = useProductMutation('CREATE', '/admin/products', 'Add Product Success!')
   const { data: category, isLoading } = useHookQuery({ path: 'category' })
-  useEffect(() => {
-    if (isSuccess) {
-      successMessage('Product added successfully!')
-    }
-  }, [isSuccess])
+  form.setValue('active', true)
   return (
     <div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">
@@ -77,7 +71,7 @@ const ProductAdd = () => {
           >
             <option value="">--- Select Category ---</option>
             {isLoading ? <option>Loading...</option> : category!.map((item: ICategory, index: number) => (
-              <option key={index} value={item.id}>{item.name}</option>
+              <option key={index} value={item.name}>{item.name}</option>
             ))}
           </select>
           {form.formState.errors.category && <p className="text-red-500 text-xs italic">Product category is required</p>}

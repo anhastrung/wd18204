@@ -1,25 +1,19 @@
 import { useContext, useEffect } from "react"
-import useHookMutation from "../../../hooks/useHookMutation"
+import { useUserMutation } from "../../../hooks/useHookMutation"
 import { useParams } from "react-router-dom"
 import useHookQuery from "../../../hooks/useHookQuery"
 import { UserContext } from "../../../contexts/UserContextProvider"
-import { successMessage } from "../../../hooks/useMessage"
 
 const UserEdit = () => {
     const { id } = useParams()
     const { data } = useHookQuery({ path: 'users', id: Number(id) })
-    const { form, onSubmit, isPending, isSuccess } = useHookMutation('users', 'UPDATE', '/admin/users')
+    const { form, onSubmit, isPending } = useUserMutation('UPDATE', '/admin/users', 'User updated successfully!')
     const { user } = useContext(UserContext)
     useEffect(() => {
         if (data) {
             form.reset(data)
         }
     }, [data, form, id])
-    useEffect(() => {
-        if (isSuccess) {
-            successMessage('User updated successfully!')
-        }
-    }, [isSuccess])
     if (user.role <= data?.role) {
         return <div>Permission denied</div>
     }

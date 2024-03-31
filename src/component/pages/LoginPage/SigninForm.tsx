@@ -8,7 +8,7 @@ type IForm = {
   password: string;
 }
 const SigninForm = () => {
-  const { data, isLoading } = useHookQuery({ path: 'users' })
+  const { data, isLoading } = useHookQuery({ path: 'users', active: true })
   const { setCurrentID } = useContext(UserContext)
   const [loginForm, setLoginForm] = useState({
     email: '',

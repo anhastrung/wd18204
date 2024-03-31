@@ -1,27 +1,19 @@
 import { useEffect } from "react"
 import { ICategory } from "../../../../interfaces/ICategory"
-import useHookMutation from "../../../hooks/useHookMutation"
 import useHookQuery from "../../../hooks/useHookQuery"
 import { useParams } from "react-router-dom"
-import { successMessage } from "../../../hooks/useMessage"
+import { useProductMutation } from "../../../hooks/useHookMutation"
 
 const ProductEdit = () => {
   const { id } = useParams()
   const { data } = useHookQuery({ path: 'products', id: Number(id) })
-  const { form, onSubmit, isPending, isSuccess } = useHookMutation('products', 'UPDATE', '/admin/products')
-  console.log(data);
-
+  const { form, onSubmit, isPending } = useProductMutation('UPDATE', '/admin/products', 'Edit Product Success!')
   useEffect(() => {
     if (data) {
       form.reset(data)
     }
   }, [data, form, id])
   const { data: category, isLoading } = useHookQuery({ path: 'category' })
-  useEffect(() => {
-    if (isSuccess) {
-      successMessage('Product updated successfully!')
-    }
-  }, [isSuccess])
   return (
     <div>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">
@@ -87,7 +79,7 @@ const ProductEdit = () => {
           >
             <option value="">--- Select Category ---</option>
             {isLoading ? <option>Loading...</option> : category!.map((item: ICategory, index: number) => (
-              <option key={index} value={item.id}>{item.name}</option>
+              <option key={index} value={item.name}>{item.name}</option>
             ))}
           </select>
           {form.formState.errors.category && <p className="text-red-500 text-xs italic">Product category is required</p>}

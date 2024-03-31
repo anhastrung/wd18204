@@ -1,7 +1,39 @@
 import { IProduct } from "../../interfaces/IProduct";
 import { Link } from "react-router-dom";
+import { useCartQuery } from "../hooks/useHookQuery";
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/UserContextProvider";
+import { ICart } from "../../interfaces/ICart";
+import { useCartMutation } from "../hooks/useHookMutation";
+import { errorMessage } from "../hooks/useMessage";
 
 const ListProductPage = ({ data }: { data: IProduct[] }) => {
+    const { user } = useContext(UserContext)
+    const { data: listCart, refetch } = useCartQuery(user.id)
+    const { mutate: addToCart, isPending: isAddpPending } = useCartMutation('CREATE', 'Add to cart successfully')
+    const { mutate: updateCart, isPending: isUpdatePending } = useCartMutation('UPDATE', 'Update cart successfully')
+    const [timer, setTimer] = useState(0)
+    const handleAddToCart = (product: IProduct) => {
+        if (timer > 0) {
+            errorMessage('Too fast, try again later')
+            console.log(timer);
+        }
+        else {
+            setTimer(1)
+            const cart = listCart.find((item: ICart) => item.product === product.id)
+            if (cart) {
+                updateCart({ ...cart, quantity: cart.quantity + 1 })
+                setTimer(1)
+            } else {
+                addToCart({ user: user.id, product: product.id!, quantity: 1 })
+            }
+            refetch()
+            refetch()
+            setTimeout(() => {
+                setTimer(0)
+            }, 1000)
+        }
+    }
     return (
         <div>
             <div className="product-list mb-8">
@@ -23,7 +55,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
                         </div>
                         <div className="product-actions">
                             <button className="bg-white text-black"><Link to={`/detail/${item.id}`}>Quick View</Link></button>
-                            <button className="bg-white text-black">Add To Cart</button>
+                            <button onClick={() => handleAddToCart(item)} className="bg-white text-black">{isAddpPending ? "Adding" : isUpdatePending ? "Updating" : "Add To Cart"}</button>
                             <div className="product-actions-more">
                                 <span className="product-action__share">Share</span>
                                 <span className="product-action__compare mx-3">Compare</span>

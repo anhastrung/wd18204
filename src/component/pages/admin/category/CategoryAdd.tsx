@@ -1,14 +1,8 @@
-import { useEffect } from "react"
-import useHookMutation from "../../../hooks/useHookMutation"
-import { successMessage } from "../../../hooks/useMessage"
+import { useCategoryMutation } from "../../../hooks/useHookMutation"
 
 const CategoryAdd = () => {
-    const { form, onSubmit, isPending, isSuccess } = useHookMutation('category', 'CREATE', '/admin/categories')
-    useEffect(() => {
-        if (isSuccess) {
-            successMessage('Category added successfully!')
-        }
-    }, [isSuccess])
+    const { form, onSubmit, isPending } = useCategoryMutation('CREATE', '/admin/category', 'Add Category Success!')
+    form.setValue('active', true)
     return (
         <div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md mx-auto">

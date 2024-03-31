@@ -1,24 +1,56 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../contexts/UserContextProvider"
 
 const LayoutAdmin = () => {
     const location = useLocation().pathname.split("/")[2]
-    const { user } = useContext(UserContext)
+    const { user, removeCurrentID } = useContext(UserContext)
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false)
+    const [confirm, setConfirm] = useState(false)
     useEffect(() => {
         if (!user || !user.active || user.role < 1) {
             navigate('/')
         }
     }, [user, navigate])
+    useEffect(() => {
+        if (open == false) {
+            setConfirm(false)
+        }
+    }, [open])
+    const onLogOut = () => {
+        if (!confirm) {
+            setConfirm(true)
+            return
+        }
+        setOpen(false)
+        removeCurrentID()
+        navigate('/')
+    }
     return (
         <div className="border-gray-100">
-            <div className="p-4 border-gray-300 border-b-[1px] flex justify-between">
+            <div className="p-4 border-gray-300 border-b-[1px] flex justify-between relative">
                 <h1 className="self-center text-lg font-bold">PH30810</h1>
-                <button className="flex items-center gap-2">
-                    <h2 className="text-sm">{user?.name}</h2>
-                    <img src={user?.image} className="w-8 rounded-3xl" />
+                <button onClick={() => setOpen(!open)}>
+                    <div className="items-center">
+                        {/* <h2 className="text-sm">{user?.name}</h2> */}
+                        <img src={user?.image} className="w-8 rounded-3xl" />
+                    </div>
                 </button>
+                <div className={`absolute font-[segoe script] shadow-md bg-white right-0 top-10 rounded-md w-[200px] mt-4 p-4 rounded-xl ${!open && "hidden"}`}>
+                    <div className="flex justify-center border-gray-400 border-b-[1px] pb-3 mb-2">
+                        <div className="flex items-center gap-2">
+                            <img src={user?.image} className="w-8 rounded-3xl" />
+                            <h2 className="text-lg text-black">{user?.name}</h2>
+                        </div>
+                    </div>
+                    <ul className='text-center'>
+                        {user.role >= 1 && <li className="hover:text-red-400"><Link to='/admin'>Admin Dashboard</Link></li>}
+                        <li className="hover:text-red-400"><Link to='/profile'>Cập nhật thông tin</Link></li>
+                        <li className="hover:text-red-400"><Link to='/change-password'>Đổi mật khẩu</Link></li>
+                        <li className="hover:text-red-400"><button onClick={onLogOut}>{confirm ? "Xác Nhận Đăng Xuất" : "Đăng Xuất"}</button></li>
+                    </ul>
+                </div>
             </div>
             <div className="grid grid-cols-[10%,1fr]">
                 <div className="bg-white border-gray-300 border-r-[1px] h-screen">
@@ -35,6 +67,10 @@ const LayoutAdmin = () => {
                     <Link to={'/admin/category'} className={`px-4 py-3 flex gap-1 place-items-center text-gray-500 ${location == "category" && "bg-gray-100"}`}>
                         <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M329.1 142.9c-62.5-62.5-155.8-62.5-218.3 0s-62.5 163.8 0 226.3s155.8 62.5 218.3 0c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3c-87.5 87.5-221.3 87.5-308.8 0s-87.5-229.3 0-316.8s221.3-87.5 308.8 0c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0z" /></svg>
                         <h3>Category</h3>
+                    </Link>
+                    <Link to={'/admin/attribute'} className={`px-4 py-3 flex gap-1 place-items-center text-gray-500 ${location == "attribute" && "bg-gray-100"}`}>
+                        <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                        <h3>Attribute</h3>
                     </Link>
                     <Link to={'/admin/products'} className={`px-4 py-3 flex gap-1 place-items-center text-gray-500 ${location == "products" && "bg-gray-100"}`}>
                         <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M0 96C0 60.7 28.7 32 64 32h96c88.4 0 160 71.6 160 160s-71.6 160-160 160H64v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V320 96zM64 288h96c53 0 96-43 96-96s-43-96-96-96H64V288z" /></svg>

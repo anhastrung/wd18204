@@ -20,6 +20,9 @@ import NotFound from './component/pages/NotFound'
 import LoginPage from './component/pages/LoginPage/LoginPage'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import AttributeAdd from './component/pages/admin/attribute/AttributeAdd'
+import AttributeFix from './component/pages/admin/attribute/AttributeFix'
+import AttributeList from './component/pages/admin/attribute/AttributeList'
 function App() {
   return (
     <>
@@ -35,13 +38,20 @@ function App() {
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
           <Route path='' element={<DashBoard />} />
+          <Route path='attribute'>
+            <Route path='' element={<AttributeList />} />
+            <Route path='add' element={<AttributeAdd />} />
+            <Route path=':id/edit' element={<AttributeFix />} />
+          </Route>
           <Route path='products'>
             <Route path='' element={<ProductList />} />
+            <Route path=':trash' element={<ProductList />} />
             <Route path='add' element={<ProductAdd />} />
             <Route path=':id/edit' element={<ProductEdit />} />
           </Route>
           <Route path='category'>
             <Route path='' element={<CategoryList />} />
+            <Route path=':trash' element={<CategoryList />} />
             <Route path='add' element={<CategoryAdd />} />
             <Route path=':id/edit' element={<CategoryEdit />} />
           </Route>

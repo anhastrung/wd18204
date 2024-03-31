@@ -7,7 +7,8 @@ export interface IProduct {
     rating?: number;
     stock?: number;
     brand?: string;
-    category?: string;
+    category?: number;
     thumbnail: string;
     images: string[];
+    active: boolean;
 }

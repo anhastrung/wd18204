@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
-import useHookMutation from "../../hooks/useHookMutation";
 import useHookQuery from "../../hooks/useHookQuery";
 import { IUser } from "../../../interfaces/IUser";
-import { successMessage } from "../../hooks/useMessage";
+import { useUserMutation } from "../../hooks/useHookMutation";
 const SignupForm = ({ setIsAnimated }: any) => {
-  const { form, onSubmit, isPending, isSuccess } = useHookMutation('users', 'CREATE', "none")
+  const { form, onSubmit, isPending, isSuccess } = useUserMutation('CREATE', 'none', 'Account created successfully!')
   const { data, isLoading } = useHookQuery({ path: 'users' })
   useEffect(() => {
     if (isSuccess) {
       setIsAnimated(false)
       form.reset()
-      successMessage('Account created successfully!')
     }
   }, [isSuccess, setIsAnimated, form])
 

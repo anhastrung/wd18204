@@ -4,4 +4,5 @@ export interface ICategory {
     description: string;
     image: string;
     createdAt: string;
+    active: boolean;
 }

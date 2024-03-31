@@ -7,7 +7,7 @@ import { Bounce, ToastPosition, TypeOptions, toast } from "react-toastify";
 export const successMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.success(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -21,7 +21,7 @@ export const successMessage = (message: string, position?: ToastPosition | "bott
 export const errorMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.error(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -35,7 +35,7 @@ export const errorMessage = (message: string, position?: ToastPosition | "bottom
 export const infoMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.info(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -49,7 +49,7 @@ export const infoMessage = (message: string, position?: ToastPosition | "bottom-
 export const warningMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.warning(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -63,7 +63,7 @@ export const warningMessage = (message: string, position?: ToastPosition | "bott
 export const darkMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast.dark(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -77,7 +77,7 @@ export const darkMessage = (message: string, position?: ToastPosition | "bottom-
 export const defaultMessage = (message: string, position?: ToastPosition | "bottom-right") => {
     return toast(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -91,7 +91,7 @@ export const defaultMessage = (message: string, position?: ToastPosition | "bott
 export const customMessage = (message: string, type: TypeOptions | undefined, position?: ToastPosition | "bottom-right") => {
     return toast(message, {
         position: position,
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
