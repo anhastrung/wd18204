@@ -79,7 +79,7 @@ const ProductEdit = () => {
           >
             <option value="">--- Select Category ---</option>
             {isLoading ? <option>Loading...</option> : category!.map((item: ICategory, index: number) => (
-              <option key={index} value={item.name}>{item.name}</option>
+              <option key={index} value={item.id}>{item.name}</option>
             ))}
           </select>
           {form.formState.errors.category && <p className="text-red-500 text-xs italic">Product category is required</p>}

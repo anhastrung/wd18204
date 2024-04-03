@@ -9,7 +9,7 @@ import { errorMessage } from "../hooks/useMessage";
 
 const ListProductPage = ({ data }: { data: IProduct[] }) => {
     const { user } = useContext(UserContext)
-    const { data: listCart, refetch } = useCartQuery(user.id)
+    const { data: listCart, refetch } = useCartQuery(user && user.id)
     const { mutate: addToCart, isPending: isAddpPending } = useCartMutation('CREATE', 'Add to cart successfully')
     const { mutate: updateCart, isPending: isUpdatePending } = useCartMutation('UPDATE', 'Update cart successfully')
     const [timer, setTimer] = useState(0)
@@ -55,7 +55,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
                         </div>
                         <div className="product-actions">
                             <button className="bg-white text-black"><Link to={`/detail/${item.id}`}>Quick View</Link></button>
-                            <button onClick={() => handleAddToCart(item)} className="bg-white text-black">{isAddpPending ? "Adding" : isUpdatePending ? "Updating" : "Add To Cart"}</button>
+                            <button onClick={() => user ? handleAddToCart(item) : errorMessage('login first', 'top-right')} className="bg-white text-black">{isAddpPending ? "Adding" : isUpdatePending ? "Updating" : "Add To Cart"}</button>
                             <div className="product-actions-more">
                                 <span className="product-action__share">Share</span>
                                 <span className="product-action__compare mx-3">Compare</span>

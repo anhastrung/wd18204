@@ -60,7 +60,7 @@ const Layout = () => {
                                     </div>
                                 </div>
                                 <div className="header-item-user mt-2">
-                                    <button onClick={removeCurrentID}><span><img src="/src/assets/akar-icons_search.png" /></span></button>
+                                    <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
                                 </div>
                                 <div className="header-item-user mt-2">
                                     <Link to="/fav"><span><img src="/src/assets/akar-icons_heart.png" /></span></Link>

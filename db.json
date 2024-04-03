@@ -2,27 +2,21 @@
   "cart": [
     {
       "user": 1,
-      "product": 28,
+      "product": 29,
       "quantity": 2,
-      "id": 3
+      "id": 1
     },
     {
       "user": 1,
       "product": 30,
-      "quantity": 5,
+      "quantity": 1,
+      "id": 2
+    },
+    {
+      "user": 1,
+      "product": 9,
+      "quantity": 1,
       "id": 4
-    },
-    {
-      "user": 1,
-      "product": 100,
-      "quantity": 3,
-      "id": 5
-    },
-    {
-      "user": 1,
-      "product": 29,
-      "quantity": 4,
-      "id": 6
     }
   ],
   "attribute": [
@@ -92,6 +86,14 @@
       "image": "/public/keqing.png",
       "role": 0,
       "active": true
+    },
+    {
+      "role": 0,
+      "active": true,
+      "name": "1",
+      "email": "131313@asdasd.co",
+      "password": "123123aa",
+      "id": 4
     }
   ],
   "category": [
@@ -200,12 +202,12 @@
       "id": 100,
       "title": "iPhone XX",
       "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 200,
+      "price": "99999999",
       "discountPercentage": 17,
       "rating": 4.44,
       "stock": 34,
       "brand": "Apple",
-      "category": 8,
+      "category": "1",
       "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
       "images": [
         "https://cdn.dummyjson.com/product-images/2/1.jpg",
@@ -753,6 +755,16 @@
         "https://cdn.dummyjson.com/product-images/30/thumbnail.jpg"
       ],
       "active": true
+    },
+    {
+      "active": true,
+      "title": "1",
+      "price": "1",
+      "discountPercentage": "0",
+      "thumbnail": "1",
+      "category": "9",
+      "description": "1",
+      "id": 101
     }
   ]
 }

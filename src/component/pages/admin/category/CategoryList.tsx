@@ -26,7 +26,7 @@ const CategoryList = () => {
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-gray-800 mb-4">Category List</h1>
         <div>
-          <Link to={trash ? location.pathname.split('/trash')[0] : location.pathname + '/trash'}>
+          <Link onClick={()=>setPage(1)} to={trash ? location.pathname.split('/trash')[0] : location.pathname + '/trash'}>
             <button className="bg-purple-700 hover:bg-purple-900 text-white font-bold py-1.5 px-3 rounded mx-4">
               {trash ? "Trash Can't" : "Trash Can"}
             </button>

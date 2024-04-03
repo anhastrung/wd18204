@@ -1,12 +1,19 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { BannerPage, ServicePage } from "./Layout"
 import { UserContext } from "../contexts/UserContextProvider"
 import useHookQuery, { useCartQuery } from "../hooks/useHookQuery"
 import { ICart } from "../../interfaces/ICart"
 import { IProduct } from "../../interfaces/IProduct"
 import { useCartMutation } from "../hooks/useHookMutation"
+import { useNavigate } from "react-router-dom"
 const CartPage = () => {
     const { user } = useContext(UserContext)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (user == null) {
+            navigate('/')
+        }
+    }), [user]
     const { data, isLoading, refetch } = useCartQuery(user?.id)
     const { data: listProduct, isLoading: isLoadingProduct } = useHookQuery({ path: 'products' })
     const [confirm, setConfirm] = useState(0)
@@ -38,9 +45,9 @@ const CartPage = () => {
                                         <tr key={item.id}>
                                             <td className='text-black py-4'><img className='w-16 h-16 object-cover' src={product?.thumbnail} alt={product?.title} /></td>
                                             <td className='text-black py-4'>{product?.title}</td>
-                                            <td className='text-black py-4'>{product?.price}</td>
+                                            <td className='text-black py-4'>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(product?.price)}</td>
                                             <td className='text-black py-4'>{item.quantity}</td>
-                                            <td className='text-black py-4'>{product?.price * item.quantity}</td>
+                                            <td className='text-black py-4'>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(product?.price * item.quantity)}</td>
                                             <td className='text-black py-4'>
                                                 <button onClick={() => {
                                                     if (confirm == product.id) {
@@ -68,15 +75,15 @@ const CartPage = () => {
                         <div className='flex justify-between mb-6'>
                             <h3 className='font-medium'>Subtotal</h3>
                             <div className="text-right">
-                                {subtotal.map(item => {
+                                {subtotal.map((item, index) => {
                                     total = total + item
-                                    return <span className='text-[#9F9F9F] block'>{item}đ</span>
+                                    return <span key={index} className='text-[#9F9F9F] block'>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item)}đ</span>
                                 })}
                             </div>
                         </div>
                         <div className='flex justify-between mb-8'>
                             <h3 className='font-medium'>Total</h3>
-                            <span className='text-xl text-[#B88E2F]'>{total}đ</span>
+                            <span className='text-xl text-[#B88E2F]'>{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(total)}đ</span>
                         </div>
                         <a className='flex justify-center mb-16' href="/checkout"><button className='text-xl py-3 px-12 border-black border-[1px] rounded-2xl block self-center'>Check Out</button></a>
                     </div>
