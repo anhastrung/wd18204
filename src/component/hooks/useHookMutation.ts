@@ -6,8 +6,8 @@ import { postApi, patchApi, activeApi, deleteApi } from "../services/crud"
 import { IProduct } from './../../interfaces/IProduct';
 import { ICategory } from "../../interfaces/ICategory";
 import { IUser } from "../../interfaces/IUser";
-import { successMessage } from "./useMessage";
 import { ICart } from "../../interfaces/ICart";
+import { toast } from "sonner";
 
 export const useProductMutation = (action: "CREATE" | "UPDATE" | "DELETE", navigatePage: string, success?: string) => {
     const path = 'products'
@@ -29,7 +29,7 @@ export const useProductMutation = (action: "CREATE" | "UPDATE" | "DELETE", navig
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && successMessage(success)
+            success && toast.success(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -64,7 +64,7 @@ export const useCategoryMutation = (action: "CREATE" | "UPDATE" | "DELETE", navi
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && successMessage(success)
+            success && toast.success(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -99,7 +99,7 @@ export const useUserMutation = (action: "CREATE" | "UPDATE" | "ACTIVE", navigate
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && successMessage(success)
+            success && toast.success(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -128,7 +128,7 @@ export const useCartMutation = (action: "CREATE" | "UPDATE" | "DELETE", success?
             return null
         },
         onSuccess: () => {
-            success && successMessage(success)
+            success && toast.success(success)
         },
         onError: (error) => {
             console.log(error)

@@ -3,13 +3,13 @@
     {
       "user": 1,
       "product": 29,
-      "quantity": 2,
+      "quantity": 11,
       "id": 1
     },
     {
       "user": 1,
       "product": 30,
-      "quantity": 1,
+      "quantity": 20,
       "id": 2
     },
     {
@@ -17,6 +17,12 @@
       "product": 9,
       "quantity": 1,
       "id": 4
+    },
+    {
+      "user": 1,
+      "product": 100,
+      "quantity": 3,
+      "id": 5
     }
   ],
   "attribute": [
@@ -762,7 +768,7 @@
       "price": "1",
       "discountPercentage": "0",
       "thumbnail": "1",
-      "category": "9",
+      "category": "10",
       "description": "1",
       "id": 101
     }

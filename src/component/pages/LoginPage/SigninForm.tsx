@@ -1,8 +1,8 @@
 import { ChangeEvent, useContext, useState } from "react";
 import useHookQuery from "../../hooks/useHookQuery";
-import { errorMessage, successMessage, warningMessage } from "../../hooks/useMessage";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
+import { toast } from "sonner";
 type IForm = {
   email: string;
   password: string;
@@ -25,10 +25,10 @@ const SigninForm = () => {
     e.preventDefault()
     const user = data?.find((item: IForm) => item.email === loginForm.email && item.password === loginForm.password)
     if (user) {
-      successMessage('Đăng nhập thành công!', 'top-right')
+      toast.success('đăng nhập thành công!')
       setCurrentID(user.id)
     } else {
-      errorMessage('nói chung là, sai mật khẩu!', 'bottom-left')
+      toast.error('đăng nhập thất bại!')
     }
   }
   if (isLoading) return <div>Loading...</div>
@@ -82,7 +82,7 @@ const SigninForm = () => {
                   className="mt-20 px-8 py-4 uppercase rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-center block w-full focus:outline-none focus:ring focus:ring-offset-2 focus:ring-indigo-500 focus:ring-opacity-80 cursor-pointer"
                 />
               </form>
-              <Link to="/login" onClick={() => warningMessage('CÓ CÁI MẬT KHẨU MÀ CŨNG QUÊN?', 'bottom-left')} className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <Link to="/login" onClick={() => toast.warning('CÓ CÁI MẬT KHẨU MÀ CŨNG QUÊN?')} className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 {" "}Forgot your password?{" "}
               </Link>
             </div>

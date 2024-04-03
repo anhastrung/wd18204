@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContextProvider";
 import { ICart } from "../../interfaces/ICart";
 import { useCartMutation } from "../hooks/useHookMutation";
-import { errorMessage } from "../hooks/useMessage";
+import { toast } from "sonner";
 
 const ListProductPage = ({ data }: { data: IProduct[] }) => {
     const { user } = useContext(UserContext)
@@ -15,7 +15,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
     const [timer, setTimer] = useState(0)
     const handleAddToCart = (product: IProduct) => {
         if (timer > 0) {
-            errorMessage('Too fast, try again later')
+            toast.error('Too fast, try again latter')
             console.log(timer);
         }
         else {
@@ -55,7 +55,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
                         </div>
                         <div className="product-actions">
                             <button className="bg-white text-black"><Link to={`/detail/${item.id}`}>Quick View</Link></button>
-                            <button onClick={() => user ? handleAddToCart(item) : errorMessage('login first', 'top-right')} className="bg-white text-black">{isAddpPending ? "Adding" : isUpdatePending ? "Updating" : "Add To Cart"}</button>
+                            <button onClick={() => user ? handleAddToCart(item) : toast.warning('login first')} className="bg-white text-black">{isAddpPending ? "Adding" : isUpdatePending ? "Updating" : "Add To Cart"}</button>
                             <div className="product-actions-more">
                                 <span className="product-action__share">Share</span>
                                 <span className="product-action__compare mx-3">Compare</span>

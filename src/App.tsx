@@ -18,15 +18,14 @@ import UserEdit from './component/pages/admin/user/UserEdit'
 import DashBoard from './component/pages/admin/DashBoard'
 import NotFound from './component/pages/NotFound'
 import LoginPage from './component/pages/LoginPage/LoginPage'
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
 import AttributeAdd from './component/pages/admin/attribute/AttributeAdd'
 import AttributeFix from './component/pages/admin/attribute/AttributeFix'
 import AttributeList from './component/pages/admin/attribute/AttributeList'
+import { Toaster } from 'sonner'
 function App() {
   return (
     <>
-      <ToastContainer limit={1} newestOnTop={true} />
+      <Toaster richColors position='top-right' duration={2000} visibleToasts={3} expand={true} />
       <Routes>
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />
