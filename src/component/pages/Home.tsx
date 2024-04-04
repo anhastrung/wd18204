@@ -2,7 +2,7 @@ import useHookQuery from "../hooks/useHookQuery"
 import { BannerPage, ServicePage } from "./Layout"
 import ListProductPage from "./ListProduct"
 const HomePage = () => {
-    const { data, isLoading } = useHookQuery({ path: 'products', limitProductOnPage: 4 })
+    const { data, isLoading } = useHookQuery({ path: 'products', limitProductOnPage: 4, active: true})
     return (
         <div className="font-['Poppins']">
             <BannerPage />

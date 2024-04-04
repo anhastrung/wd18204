@@ -5,7 +5,7 @@ import ListProductPage from "./ListProduct"
 import PageButton from "./PageButton"
 
 const ShopPage = () => {
-    const { data, isLoading } = useHookQuery({ path: 'products' })
+    const { data, isLoading } = useHookQuery({ path: 'products', active: true })
     // button change page
     const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
     const limit = 12

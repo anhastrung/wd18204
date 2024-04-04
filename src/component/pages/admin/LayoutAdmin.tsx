@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../contexts/UserContextProvider"
+import { Toaster } from "sonner"
 
 const LayoutAdmin = () => {
     const location = useLocation().pathname.split("/")[2]
@@ -29,6 +30,7 @@ const LayoutAdmin = () => {
     }
     return (
         <div className="border-gray-100">
+            <Toaster richColors position='top-right' duration={2000} expand={false} />
             <div className="p-4 border-gray-300 border-b-[1px] flex justify-between relative">
                 <h1 className="self-center text-lg font-bold">PH30810</h1>
                 <button onClick={() => setOpen(!open)}>

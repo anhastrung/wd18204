@@ -2,7 +2,7 @@ import { ChangeEvent, useContext, useState } from "react";
 import useHookQuery from "../../hooks/useHookQuery";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 type IForm = {
   email: string;
   password: string;
@@ -34,6 +34,7 @@ const SigninForm = () => {
   if (isLoading) return <div>Loading...</div>
   return (
     <div className="selection:bg-indigo-500 selection:text-white">
+      <Toaster richColors position='bottom-left' duration={2000} expand={true} />
       <div className="flex justify-center items-center">
         <div className="p-8 flex-1">
           <div className="mx-auto overflow-hidden">
@@ -41,7 +42,6 @@ const SigninForm = () => {
               <h1 className="text-5xl font-bold text-indigo-600">
                 Welcome back!
               </h1>
-
               <form className="mt-12" onSubmit={onSubmit}>
                 <div className="relative">
                   <input
@@ -82,7 +82,7 @@ const SigninForm = () => {
                   className="mt-20 px-8 py-4 uppercase rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-center block w-full focus:outline-none focus:ring focus:ring-offset-2 focus:ring-indigo-500 focus:ring-opacity-80 cursor-pointer"
                 />
               </form>
-              <Link to="/login" onClick={() => toast.warning('CÓ CÁI MẬT KHẨU MÀ CŨNG QUÊN?')} className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <Link to="/forgot-password" className="mt-4 block text-sm text-center font-medium text-indigo-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 {" "}Forgot your password?{" "}
               </Link>
             </div>

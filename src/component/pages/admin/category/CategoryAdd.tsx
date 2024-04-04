@@ -25,10 +25,9 @@ const CategoryAdd = () => {
                     <input
                         type="text"
                         id="image"
-                        {...form.register("image", { required: true })}
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.image ? 'border-red-500' : ''}`}
+                        {...form.register("image")}
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
                     />
-                    {form.formState.errors.image && <p className="text-red-500 text-xs italic">Category image is required</p>}
                 </div>
                 <div className="mb-4">
                     <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
@@ -36,10 +35,9 @@ const CategoryAdd = () => {
                     </label>
                     <textarea
                         id="description"
-                        {...form.register("description", { required: true })}
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.description ? 'border-red-500' : ''}`}
+                        {...form.register("description")}
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
                     />
-                    {form.formState.errors.description && <p className="text-red-500 text-xs italic">Category description is required</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button

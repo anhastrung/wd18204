@@ -136,3 +136,37 @@ export const useCartMutation = (action: "CREATE" | "UPDATE" | "DELETE", success?
     })
     return { mutate, ...rest }
 }
+
+export const useChangePasswordMutation = (action: "UPDATE", navigatePage: string, success?: string) => {
+    const path = 'users'
+    const queryClient = useQueryClient()
+    const form = useForm<{
+        oldpassword: string
+        password: string
+        cpassword: string
+        terms: boolean
+    }>()
+    const navigate = useNavigate()
+    const { mutate, ...rest } = useMutation({
+        mutationFn: async (data: IUser) => {
+            if (action === "UPDATE") {
+                return await patchApi(`${path}/${data.id}`, data)
+            }
+            return null
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [path],
+            })
+            success && toast.success(success)
+            if (navigatePage != 'none') {
+                navigate(navigatePage)
+            }
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
+
+    return { mutate, form, ...rest }
+}

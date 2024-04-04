@@ -53,8 +53,8 @@ const Layout = () => {
                                         </div>
                                         <ul className='text-center'>
                                             {user.role >= 1 && <li className="hover:text-red-400"><Link to='/admin'>Admin Dashboard</Link></li>}
-                                            <li className="hover:text-red-400"><Link to='/profile'>Cập nhật thông tin</Link></li>
-                                            <li className="hover:text-red-400"><Link to='/change-password'>Đổi mật khẩu</Link></li>
+                                            <li onClick={() => setOpen(false)} className="hover:text-red-400"><Link to='/profile'>Cập nhật thông tin</Link></li>
+                                            <li onClick={() => setOpen(false)} className="hover:text-red-400"><Link to='/change-password'>Đổi mật khẩu</Link></li>
                                             <li className="hover:text-red-400"><button onClick={onLogOut}>{confirm ? "Xác Nhận Đăng Xuất" : "Đăng Xuất"}</button></li>
                                         </ul>
                                     </div>

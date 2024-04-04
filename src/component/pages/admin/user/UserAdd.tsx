@@ -6,6 +6,7 @@ const UserAdd = () => {
   const { form, onSubmit, isPending } = useUserMutation('CREATE', '/admin/users', 'Add User Success!')
   const { data, isLoading } = useHookQuery({ path: 'users' })
   form.setValue('active', true)
+  form.setValue('bio', '')
   if (isLoading) return <div>Loading...</div>
   return (
     <div>
@@ -64,10 +65,9 @@ const UserAdd = () => {
           </label>
           <input
             id="image"
-            {...form.register("image", { required: "Image is required" })}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${form.formState.errors.image ? 'border-red-500' : ''}`}
+            {...form.register("image")}
+            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
           />
-          {form.formState.errors.image && <p className="text-red-500 text-xs italic">{form.formState.errors.image.message}</p>}
         </div>
         <div className="mb-4">
           <label htmlFor="role" className="block text-gray-700 text-sm font-bold mb-2">
@@ -82,6 +82,16 @@ const UserAdd = () => {
             <option value="1">Admin</option>
           </select>
           {form.formState.errors.role && <p className="text-red-500 text-xs italic">{form.formState.errors.role.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="bio" className="block text-gray-700 text-sm font-bold mb-2">
+            Bio
+          </label>
+          <textarea
+            id="bio"
+            {...form.register("bio")}
+            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+          />
         </div>
         <div className="flex items-center justify-between">
           <button

@@ -6,6 +6,7 @@ import { ICart } from "../../interfaces/ICart"
 import { IProduct } from "../../interfaces/IProduct"
 import { useCartMutation } from "../hooks/useHookMutation"
 import { useNavigate } from "react-router-dom"
+import { Toaster } from "sonner"
 const CartPage = () => {
     const { user } = useContext(UserContext)
     const navigate = useNavigate()
@@ -22,6 +23,7 @@ const CartPage = () => {
     const { mutate } = useCartMutation('DELETE', 'Delete cart successfully')
     return (
         <div>
+            <Toaster richColors position='top-right' duration={2000} expand={true} />
             <BannerPage />
             <div className="container md:flex md:justify-between gap-8 py-12">
                 {isLoading || isLoadingProduct ? <div>Loading...</div> :

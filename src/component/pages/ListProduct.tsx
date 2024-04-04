@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContextProvider";
 import { ICart } from "../../interfaces/ICart";
 import { useCartMutation } from "../hooks/useHookMutation";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 
 const ListProductPage = ({ data }: { data: IProduct[] }) => {
     const { user } = useContext(UserContext)
@@ -36,6 +36,7 @@ const ListProductPage = ({ data }: { data: IProduct[] }) => {
     }
     return (
         <div>
+            <Toaster richColors position='top-right' duration={2000} expand={true} />
             <div className="product-list mb-8">
                 {data && data.map((item: IProduct, index: number) => (
                     <div className="product-item" key={index}>

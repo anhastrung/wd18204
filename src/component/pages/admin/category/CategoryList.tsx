@@ -9,6 +9,7 @@ const CategoryList = () => {
   const trash = useParams().trash
   const { data, isLoading, refetch } = useHookQuery({ path: 'category', active: trash ? false : true });
   const { mutate, isPending } = useCategoryMutation('DELETE', 'none', trash ? 'Healing Category Success!' : 'Delete Category Success!')
+  const [confirm, setConfirm] = useState(0)
   // button change page
   const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
   const limit = 6
@@ -26,7 +27,7 @@ const CategoryList = () => {
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-gray-800 mb-4">Category List</h1>
         <div>
-          <Link onClick={()=>setPage(1)} to={trash ? location.pathname.split('/trash')[0] : location.pathname + '/trash'}>
+          <Link onClick={() => setPage(1)} to={trash ? location.pathname.split('/trash')[0] : location.pathname + '/trash'}>
             <button className="bg-purple-700 hover:bg-purple-900 text-white font-bold py-1.5 px-3 rounded mx-4">
               {trash ? "Trash Can't" : "Trash Can"}
             </button>
@@ -65,22 +66,22 @@ const CategoryList = () => {
               <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
               <td className="px-6 py-4 whitespace-nowrap"><img src={item.image} alt={item.name} className="h-20 w-40 object-cover" /></td>
               <td className="px-6 py-4 whitespace-nowrap">{item.description}</td>
-              {trash ? (
-                <td>
-                  <button className="text-green-500 hover:text-green-700 mr-2" onClick={() => confirm("Are you sure to healing this category?") && mutate(item)}>
-                    {isPending ? "Loading..." : "Revive"}
-                  </button>
-                </td>
-              ) : (
-                <td>
-                  <button className="text-red-500 hover:text-red-700 mr-2" onClick={() => confirm("Are you sure to delete this category?") && mutate(item)}>
-                    {isPending ? "Loading..." : "Delete"}
-                  </button>
-                  <button className="text-yellow-500 hover:text-yellow-700">
-                    <Link to={`${location.pathname}/${item.id}/edit`}>Edit</Link>
-                  </button>
-                </td>
-              )}
+              <td>
+                <button className={`mr-2 ${trash ? "text-green-500 hover:text-green-700" : "text-red-500 hover:text-red-700"}`} onClick={() => {
+                  if (confirm == item.id) {
+                    mutate(item)
+                    setConfirm(0)
+                  } else {
+                    setConfirm(item.id!)
+                  }
+                }
+                }>
+                  {isPending ? "Loading..." : confirm == item.id ? "Confirm" : trash ? "Revive" : "Delete"}
+                </button>
+                {!trash && <button className="text-yellow-500 hover:text-yellow-700">
+                  <Link to={`${location.pathname}/${item.id}/edit`}>Edit</Link>
+                </button>}
+              </td>
             </tr>
           ))}
         </tbody>

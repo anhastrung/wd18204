@@ -11,6 +11,7 @@ const ProductList = () => {
   const { data, isLoading, refetch } = useHookQuery({ path: 'products', active: trash ? false : true })
   const { mutate, isPending } = useProductMutation('DELETE', 'none', trash ? 'Healing Product Success!' : 'Delete Product Success!')
   const { data: listCategory, isLoading: isLoadingCate } = useHookQuery({ path: 'category' })
+  const [confirm, setConfirm] = useState(0)
   // button change page
   const [page, setPage] = useState<number>(Number(new URLSearchParams(window.location.search).get('page') || 1))
   const limit = 6
@@ -75,22 +76,22 @@ const ProductList = () => {
               <td className="px-6 py-4 whitespace-nowrap">{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item.price)}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.discountPercentage}</td>
               <td className="px-6 py-4 whitespace-nowrap">{isLoadingCate ? "Loading..." : listCategory.map((cate: ICategory) => { if (cate.id == item.category) return cate.name })}</td>
-              {trash ? (
-                <td>
-                  <button className="text-green-500 hover:text-green-700 mr-2" onClick={() => confirm("Are you sure to healing this product?") && mutate(item)}>
-                    {isPending ? "Loading..." : "Revive"}
-                  </button>
-                </td>
-              ) : (
-                <td>
-                  <button className="text-red-500 hover:text-red-700 mr-2" onClick={() => confirm("Are you sure to delete this product?") && mutate(item)}>
-                    {isPending ? "Loading..." : "Delete"}
-                  </button>
-                  <button className="text-yellow-500 hover:text-yellow-700">
-                    <Link to={`${location.pathname}/${item.id}/edit`}>Edit</Link>
-                  </button>
-                </td>
-              )}
+              <td>
+                <button className={`mr-2 ${trash ? "text-green-500 hover:text-green-700" : "text-red-500 hover:text-red-700"}`} onClick={() => {
+                  if (confirm == item.id) {
+                    mutate(item)
+                    setConfirm(0)
+                  } else {
+                    setConfirm(item.id!)
+                  }
+                }
+                }>
+                  {isPending ? "Loading..." : confirm == item.id ? "Confirm" : trash ? "Revive" : "Delete"}
+                </button>
+                {!trash && <button className="text-yellow-500 hover:text-yellow-700">
+                  <Link to={`${location.pathname}/${item.id}/edit`}>Edit</Link>
+                </button>}
+              </td>
             </tr>
           ))}
         </tbody>

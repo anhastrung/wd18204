@@ -21,11 +21,12 @@ import LoginPage from './component/pages/LoginPage/LoginPage'
 import AttributeAdd from './component/pages/admin/attribute/AttributeAdd'
 import AttributeFix from './component/pages/admin/attribute/AttributeFix'
 import AttributeList from './component/pages/admin/attribute/AttributeList'
-import { Toaster } from 'sonner'
+import ForgotPassword from './component/pages/ForgotPassword'
+import Profile from './component/pages/Profile'
+import ChangePassword from './component/pages/ChangePassword'
 function App() {
   return (
     <>
-      <Toaster richColors position='top-right' duration={2000} visibleToasts={3} expand={true} />
       <Routes>
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />
@@ -34,6 +35,9 @@ function App() {
           <Route path='detail/:id' element={<DetailPage />} />
           <Route path='checkout' element={<CheckOut />} />
           <Route path='login' element={<LoginPage />} />
+          <Route path='forgot-password' element={<ForgotPassword />} />
+          <Route path='change-password' element={<ChangePassword />} />
+          <Route path='profile' element={<Profile />} />
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
           <Route path='' element={<DashBoard />} />
