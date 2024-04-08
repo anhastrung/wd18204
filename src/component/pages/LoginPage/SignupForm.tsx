@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import useHookQuery from "../../hooks/useHookQuery";
 import { IUser } from "../../../interfaces/IUser";
 import { useUserMutation } from "../../hooks/useHookMutation";
-import { Toaster } from "sonner";
 const SignupForm = ({ setIsAnimated }: any) => {
   const { form, onSubmit, isPending, isSuccess } = useUserMutation('CREATE', 'none', 'Account created successfully!')
   const { data, isLoading } = useHookQuery({ path: 'users' })
@@ -19,7 +18,6 @@ const SignupForm = ({ setIsAnimated }: any) => {
   if (isLoading) return <div>Loading...</div>
   return (
     <div className="selection:bg-indigo-500 selection:text-white">
-      <Toaster richColors position='top-right' duration={2000} expand={true} />
       <div className="flex justify-center items-center">
         <div className="p-8 flex-1">
           <div className="mx-auto overflow-hidden">

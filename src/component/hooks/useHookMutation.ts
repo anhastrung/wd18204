@@ -7,7 +7,8 @@ import { IProduct } from './../../interfaces/IProduct';
 import { ICategory } from "../../interfaces/ICategory";
 import { IUser } from "../../interfaces/IUser";
 import { ICart } from "../../interfaces/ICart";
-import { toast } from "sonner";
+import { ICheckOut } from "../../interfaces/ICheckOut";
+import { successMessage } from "./useMessage";
 
 export const useProductMutation = (action: "CREATE" | "UPDATE" | "DELETE", navigatePage: string, success?: string) => {
     const path = 'products'
@@ -29,7 +30,7 @@ export const useProductMutation = (action: "CREATE" | "UPDATE" | "DELETE", navig
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && toast.success(success)
+            success && successMessage(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -64,7 +65,7 @@ export const useCategoryMutation = (action: "CREATE" | "UPDATE" | "DELETE", navi
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && toast.success(success)
+            success && successMessage(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -99,7 +100,7 @@ export const useUserMutation = (action: "CREATE" | "UPDATE" | "ACTIVE", navigate
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && toast.success(success)
+            success && successMessage(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -128,7 +129,7 @@ export const useCartMutation = (action: "CREATE" | "UPDATE" | "DELETE", success?
             return null
         },
         onSuccess: () => {
-            success && toast.success(success)
+            success && successMessage(success)
         },
         onError: (error) => {
             console.log(error)
@@ -158,7 +159,37 @@ export const useChangePasswordMutation = (action: "UPDATE", navigatePage: string
             queryClient.invalidateQueries({
                 queryKey: [path],
             })
-            success && toast.success(success)
+            success && successMessage(success)
+            if (navigatePage != 'none') {
+                navigate(navigatePage)
+            }
+            form.reset()
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
+
+    return { mutate, form, ...rest }
+}
+
+export const useCheckOutMutation = (action: "CREATE" | "UPDATE" | "DELETE", navigatePage: string, success?: string) => {
+    const path = 'bill'
+    const navigate = useNavigate()
+    const form = useForm<ICheckOut>()
+    const { mutate, ...rest } = useMutation({
+        mutationFn: async (data: ICheckOut) => {
+            if (action === "CREATE") {
+                return await postApi(path, data)
+            } else if (action === "UPDATE") {
+                return await patchApi(`${path}/${data.id}`, data)
+            } else if (action === "DELETE") {
+                return await deleteApi(`${path}/${data.id}`)
+            }
+            return null
+        },
+        onSuccess: () => {
+            success && successMessage(success)
             if (navigatePage != 'none') {
                 navigate(navigatePage)
             }
@@ -167,6 +198,8 @@ export const useChangePasswordMutation = (action: "UPDATE", navigatePage: string
             console.log(error)
         }
     })
-
-    return { mutate, form, ...rest }
+    const onSubmit = (data: ICheckOut) => {
+        mutate(data)
+    }
+    return { mutate, form, onSubmit, ...rest }
 }

@@ -1,26 +1,10 @@
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 import "./style.css"
+import { ICategory } from "../../interfaces/ICategory"
+import { useContext } from "react"
 import { UserContext } from "../contexts/UserContextProvider"
-import { useContext, useEffect, useState } from "react"
 const Layout = () => {
-    const { user, removeCurrentID } = useContext(UserContext)
-    const navigate = useNavigate()
-    const [open, setOpen] = useState(false)
-    const [confirm, setConfirm] = useState(false)
-    useEffect(() => {
-        if (open == false) {
-            setConfirm(false)
-        }
-    }, [open])
-    const onLogOut = () => {
-        if (!confirm) {
-            setConfirm(true)
-            return
-        }
-        setOpen(false)
-        removeCurrentID()
-        navigate('/')
-    }
+    const { user, } = useContext(UserContext)
     return (
         <div className="font-['Poppins']">
             <header className="header">
@@ -40,24 +24,8 @@ const Layout = () => {
                         </nav>
                         {user && user.active ?
                             (<div className="header-items">
-                                <div className="header-item-user mt-2 relative">
-                                    <button className="item.start" onClick={() => setOpen(!open)}>
-                                        <img src='/src/assets/mdi_account-alert-outline.png' />
-                                    </button>
-                                    <div className={`absolute font-[segoe script] shadow-md bg-white top-10 left-[-85px] rounded-md w-[200px] mt-4 p-4 rounded-xl ${!open && "hidden"}`}>
-                                        <div className="flex justify-center border-gray-400 border-b-[1px] pb-3 mb-2">
-                                            <div className="flex items-center gap-2">
-                                                <img src={user?.image} className="w-8 rounded-3xl" />
-                                                <h2 className="text-lg text-black">{user?.name}</h2>
-                                            </div>
-                                        </div>
-                                        <ul className='text-center'>
-                                            {user.role >= 1 && <li className="hover:text-red-400"><Link to='/admin'>Admin Dashboard</Link></li>}
-                                            <li onClick={() => setOpen(false)} className="hover:text-red-400"><Link to='/profile'>Cập nhật thông tin</Link></li>
-                                            <li onClick={() => setOpen(false)} className="hover:text-red-400"><Link to='/change-password'>Đổi mật khẩu</Link></li>
-                                            <li className="hover:text-red-400"><button onClick={onLogOut}>{confirm ? "Xác Nhận Đăng Xuất" : "Đăng Xuất"}</button></li>
-                                        </ul>
-                                    </div>
+                                <div className="header-item-user mt-2">
+                                    <Link to={'profile'}><span><img src='/src/assets/mdi_account-alert-outline.png' /></span></Link>
                                 </div>
                                 <div className="header-item-user mt-2">
                                     <button><span><img src="/src/assets/akar-icons_search.png" /></span></button>
@@ -142,10 +110,39 @@ const Layout = () => {
     )
 }
 
-export const BannerPage = () => {
+export const BannerPage = ({ show, limit, setLimit, listCategory, setCategory, isLoadingCate }: { show?: boolean, limit?: number, setLimit?: React.Dispatch<React.SetStateAction<number>>, listCategory?: ICategory[], setCategory?: React.Dispatch<React.SetStateAction<number>>, isLoadingCate?: boolean }) => {
     return (
-        <section className="banner">
+        <section className="banner relative">
             <img src="https://picsum.photos/id/10/1440/500" alt="" className="banner__img" />
+            {show == true &&
+                <div className="absolute w-full bg-[#F9F1E7] bottom-0">
+                    <div className="container flex justify-between py-6">
+                        <div className="left">
+                        </div>
+                        <div className="right flex justify-end gap-8">
+                            <div className="flex justify-end items-center gap-4">
+                                <p className="text-lg ">Show</p>
+                                <input className=" p-2.5 w-10 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" type="number" id="limit" value={limit} onChange={() => {
+                                    const inputNumber = Number((document.getElementById('limit') as HTMLInputElement).value)
+                                    inputNumber <= 1 ? setLimit?.(1) : inputNumber >= 100 ? setLimit?.(100) : setLimit?.(inputNumber)
+                                }} />
+                            </div>
+                            <div className=" flex justify-end items-center gap-4">
+                                <p className="text-lg ">Category</p>
+                                <select className=" p-2.5" name="" id="category" onChange={() => {
+                                    setCategory?.(Number((document.getElementById('category') as HTMLSelectElement).value))
+
+                                }}>
+                                    <option value="0">All category</option>
+                                    {isLoadingCate ? <option>Loading...</option> : listCategory!.map((item: ICategory, index: number) => (
+                                        <option key={index} value={item.id}>{item.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </section>
     )
 }

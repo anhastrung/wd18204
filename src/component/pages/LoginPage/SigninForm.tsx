@@ -2,13 +2,13 @@ import { ChangeEvent, useContext, useState } from "react";
 import useHookQuery from "../../hooks/useHookQuery";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
-import { Toaster, toast } from "sonner";
+import { errorMessage, successMessage } from "../../hooks/useMessage";
 type IForm = {
   email: string;
   password: string;
 }
 const SigninForm = () => {
-  const { data, isLoading } = useHookQuery({ path: 'users', active: true })
+  const { data, isLoading, refetch } = useHookQuery({ path: 'users', active: true })
   const { setCurrentID } = useContext(UserContext)
   const [loginForm, setLoginForm] = useState({
     email: '',
@@ -23,18 +23,19 @@ const SigninForm = () => {
   }
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
+    refetch()
+    refetch()
     const user = data?.find((item: IForm) => item.email === loginForm.email && item.password === loginForm.password)
     if (user) {
-      toast.success('đăng nhập thành công!')
+      successMessage('đăng nhập thành công!')
       setCurrentID(user.id)
     } else {
-      toast.error('đăng nhập thất bại!')
+      errorMessage('đăng nhập thất bại!', 'bottom-left')
     }
   }
   if (isLoading) return <div>Loading...</div>
   return (
     <div className="selection:bg-indigo-500 selection:text-white">
-      <Toaster richColors position='bottom-left' duration={2000} expand={true} />
       <div className="flex justify-center items-center">
         <div className="p-8 flex-1">
           <div className="mx-auto overflow-hidden">

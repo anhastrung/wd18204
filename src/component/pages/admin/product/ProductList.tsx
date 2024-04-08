@@ -73,7 +73,7 @@ const ProductList = () => {
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.title}</td>
               <td className="px-6 py-4 whitespace-nowrap"><img src={item.thumbnail} alt={item.title} className="h-20 w-40 object-cover" /></td>
-              <td className="px-6 py-4 whitespace-nowrap">{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item.price)}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(item.price)}đ</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.discountPercentage}</td>
               <td className="px-6 py-4 whitespace-nowrap">{isLoadingCate ? "Loading..." : listCategory.map((cate: ICategory) => { if (cate.id == item.category) return cate.name })}</td>
               <td>

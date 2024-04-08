@@ -3,68 +3,67 @@ import useHookQuery from "../hooks/useHookQuery"
 import { IUser } from "../../interfaces/IUser"
 import { useUserMutation } from "../hooks/useHookMutation"
 import { useNavigate } from "react-router-dom"
-import { Toaster, toast } from "sonner"
 import { UserContext } from "../contexts/UserContextProvider"
+import { errorMessage } from "../hooks/useMessage"
 
 const ForgotPassword = () => {
-    const [isCPassword, setIsCPassword] = useState(false)
-    const { data, isLoading } = useHookQuery({ path: 'users', active: true })
-    const { mutate, isPending } = useUserMutation('UPDATE', 'none', 'Reset password successfully!')
-    const [user, setUser] = useState({} as IUser)
-    const [acceptTemp, setAcceptTemp] = useState(false)
-    const navigate = useNavigate()
-    const { user: checkIsUser } = useContext(UserContext)
+    const [isCPassword, setIsCPassword] = useState(false) // State variable to track whether the user is in the "confirm password" mode
+    const { data, isLoading } = useHookQuery({ path: 'users', active: true }) // Fetches user data using a custom hook
+    const { mutate, isPending } = useUserMutation('UPDATE', 'none', 'Reset password successfully!') // Uses a custom mutation hook for updating user data
+    const [user, setUser] = useState({} as IUser) // State variable to store user data
+    const [acceptTemp, setAcceptTemp] = useState(false) // State variable to track whether the user has accepted the terms and conditions
+    const navigate = useNavigate() // Function for navigating to different routes
+    const { user: checkIsUser } = useContext(UserContext) // Retrieves the user context
     useEffect(() => {
         if (checkIsUser && checkIsUser.active) {
             navigate('/')
         }
-    }), [user]
+    }), [user] // Navigates to the home page if the user is already logged in and active
     const [forgotPassword, setForgotPassword] = useState({
         email: '',
         password: '',
         cpassword: '',
-    })
+    }) // State variable to store the form data for the forgot password functionality
     const onHandleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setForgotPassword({
             ...forgotPassword,
             [name]: value
         })
-    }
+    } // Event handler for input changes in the form
     const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (isCPassword) {
             if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(forgotPassword.password)) {
-                toast.error('Password must contain at least 8 characters, one letter and one number!')
+                errorMessage('Password must contain at least 8 characters, one letter and one number!')
                 document.getElementById('password')?.focus()
                 return false
             }
             if (forgotPassword.password != forgotPassword.cpassword) {
-                toast.error('Password not match!')
+                errorMessage('Password not match!')
                 document.getElementById('cpassword')?.focus()
                 return false
             }
             if (!acceptTemp) {
-                toast.error('Please accept the terms and conditions!')
+                errorMessage('Please accept the terms and conditions!')
                 return false
             }
-            mutate({ ...user, password: forgotPassword.password })
-            navigate('/login')
+            mutate({ ...user, password: forgotPassword.password }) // Updates the user's password using the mutation hook
+            navigate('/login') // Navigates to the login page after successful password reset
         } else {
             const checkUser = data?.find((item: IUser) => item.email === forgotPassword.email)
             if (!checkUser) {
-                toast.error('Email not found!')
+                errorMessage('Email not found!')
                 document.getElementById('email')?.focus()
                 return false
             }
-            setUser(checkUser)
-            setIsCPassword(true)
+            setUser(checkUser) // Sets the user data based on the email entered
+            setIsCPassword(true) // Switches to the "confirm password" mode
         }
     }
     if (isLoading) return <div>Loading...</div>
     return (
         <section className="bg-gray-50">
-            <Toaster richColors position='top-right' duration={2000} expand={true} />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full p-6 bg-white rounded-lg shadow md:mt-0 sm:max-w-md sm:p-8">
                     <h1 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">

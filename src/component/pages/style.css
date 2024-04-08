@@ -873,10 +873,6 @@ td {
     /* transition: background-color 0.3s; Hiệu ứng chuyển đổi màu nền */
 }
 
-.flex_button :hover {
-    background-color: #45a049;
-}
-
 .Direct_Bank_Transfer {
     color: #9f9f9f;
 }

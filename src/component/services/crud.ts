@@ -1,5 +1,6 @@
 import { ICart } from "../../interfaces/ICart";
 import { ICategory } from "../../interfaces/ICategory";
+import { ICheckOut } from "../../interfaces/ICheckOut";
 import { IProduct } from "../../interfaces/IProduct";
 import { IUser } from "../../interfaces/IUser";
 import axiosApi from "../config/axios";
@@ -14,7 +15,7 @@ export const getApi = async (url: string) => {
     }
 }
 
-export const postApi = async (url: string, data: ICategory | IProduct | IUser | ICart) => {
+export const postApi = async (url: string, data: ICategory | IProduct | IUser | ICart | ICheckOut) => {
     try {
         const response = await axiosApi.post(url, data);
         return response.data;
@@ -24,7 +25,7 @@ export const postApi = async (url: string, data: ICategory | IProduct | IUser | 
     }
 }
 
-export const patchApi = async (url: string, data: ICategory | IProduct | IUser | ICart) => {
+export const patchApi = async (url: string, data: ICategory | IProduct | IUser | ICart | ICheckOut) => {
     try {
         const response = await axiosApi.patch(url, data);
         return response.data;

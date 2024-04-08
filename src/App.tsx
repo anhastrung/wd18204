@@ -6,7 +6,6 @@ import CartPage from './component/pages/Cart'
 import Layout from './component/pages/Layout'
 import LayoutAdmin from './component/pages/admin/LayoutAdmin'
 import ProductList from './component/pages/admin/product/ProductList'
-import CheckOut from './component/pages/CheckOut'
 import ProductAdd from './component/pages/admin/product/ProductAdd'
 import ProductEdit from './component/pages/admin/product/ProductEdit'
 import CategoryEdit from './component/pages/admin/category/CategoryEdit'
@@ -23,20 +22,22 @@ import AttributeFix from './component/pages/admin/attribute/AttributeFix'
 import AttributeList from './component/pages/admin/attribute/AttributeList'
 import ForgotPassword from './component/pages/ForgotPassword'
 import Profile from './component/pages/Profile'
-import ChangePassword from './component/pages/ChangePassword'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import BillList from './component/pages/admin/bill/BillList'
+
 function App() {
   return (
     <>
+      <ToastContainer limit={3} newestOnTop={true} />
       <Routes>
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />
           <Route path='shop' element={<ShopPage />} />
           <Route path='cart' element={<CartPage />} />
           <Route path='detail/:id' element={<DetailPage />} />
-          <Route path='checkout' element={<CheckOut />} />
           <Route path='login' element={<LoginPage />} />
           <Route path='forgot-password' element={<ForgotPassword />} />
-          <Route path='change-password' element={<ChangePassword />} />
           <Route path='profile' element={<Profile />} />
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
@@ -63,9 +64,12 @@ function App() {
             <Route path='add' element={<UserAdd />} />
             <Route path=':id/edit' element={<UserEdit />} />
           </Route>
-        </Route>
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+          <Route path='bill'>
+            <Route path='' element={<BillList />} />
+          </Route>
+      </Route>
+      <Route path='*' element={<NotFound />} />
+    </Routes >
     </>
   )
 }

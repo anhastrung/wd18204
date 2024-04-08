@@ -6,32 +6,43 @@ type props = {
     id?: number,
     mustHaveID?: boolean
     active?: boolean
+    category?: number
 }
-const useHookQuery = ({ path, limitProductOnPage, id, mustHaveID, active }: props) => {
+const useHookQuery = ({ path, limitProductOnPage, id, mustHaveID, active, category }: props) => {
     const { data, ...rest } = useQuery({
         queryKey: [path, limitProductOnPage, id, active],
         queryFn: async () => {
-            if (limitProductOnPage! > 0) {
-                return await getApi(`${path}?_sort=id&_order=desc&_limit=${limitProductOnPage}${active != undefined ? `&active=${active}` : ''}`)
-            }
+            let fullpath = `${path}`
             if (id! > 0) {
-                return await getApi(`${path}/${id}${active != undefined ? `?active=${active}` : ''}`)
+                fullpath += `/${id}`
             }
-            if (mustHaveID && !id) {
+            else if (mustHaveID && id == undefined) {
                 return null
             }
-            return await getApi(`${path}?_sort=id&_order=desc${active != undefined ? `&active=${active}` : ''}`)
+            else {
+                fullpath += `?_sort=id&_order=desc`
+                if (limitProductOnPage! > 0) {
+                    fullpath += `&_limit=${limitProductOnPage}`
+                }
+                if (category! > 0) {
+                    fullpath += `&category=${category}`
+                }
+            }
+            if (active != undefined) {
+                fullpath += `${id! > 0 ? '?' : '&'}active=${active}`
+            }
+            return await getApi(fullpath)
         }
     });
     return { data, ...rest };
 };
 
-export const useCartQuery = (id: number | undefined) => {
+export const useCartQuery = (id?: number | undefined) => {
     const { data, ...rest } = useQuery({
         queryKey: ['cart', id],
         queryFn: async () => {
-            if (id != undefined) {
-                return await getApi(`cart?user = ${id}`)
+            if (id! > 0) {
+                return await getApi(`cart?user=${id}`)
             }
             return null
         }
