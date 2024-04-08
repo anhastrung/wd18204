@@ -1,30 +1,30 @@
 import { Route, Routes } from 'react-router-dom'
-import HomePage from './component/pages/Home'
-import DetailPage from './component/pages/DetailPage'
-import ShopPage from './component/pages/Shop'
-import CartPage from './component/pages/Cart'
-import Layout from './component/pages/Layout'
-import LayoutAdmin from './component/pages/admin/LayoutAdmin'
-import ProductList from './component/pages/admin/product/ProductList'
-import ProductAdd from './component/pages/admin/product/ProductAdd'
-import ProductEdit from './component/pages/admin/product/ProductEdit'
-import CategoryEdit from './component/pages/admin/category/CategoryEdit'
-import CategoryAdd from './component/pages/admin/category/CategoryAdd'
-import CategoryList from './component/pages/admin/category/CategoryList'
-import UserList from './component/pages/admin/user/UserList'
-import UserAdd from './component/pages/admin/user/UserAdd'
-import UserEdit from './component/pages/admin/user/UserEdit'
-import DashBoard from './component/pages/admin/DashBoard'
-import NotFound from './component/pages/NotFound'
-import LoginPage from './component/pages/LoginPage/LoginPage'
-import AttributeAdd from './component/pages/admin/attribute/AttributeAdd'
-import AttributeFix from './component/pages/admin/attribute/AttributeFix'
-import AttributeList from './component/pages/admin/attribute/AttributeList'
-import ForgotPassword from './component/pages/ForgotPassword'
-import Profile from './component/pages/Profile'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import BillList from './component/pages/admin/bill/BillList'
+import NotFound from './component/NotFound';
+import DashBoard from './pages/dashboard/DashBoard';
+import LayoutAdmin from './pages/dashboard/LayoutAdmin';
+import AttributeAdd from './pages/dashboard/attribute/AttributeAdd';
+import AttributeFix from './pages/dashboard/attribute/AttributeFix';
+import AttributeList from './pages/dashboard/attribute/AttributeList';
+import BillList from './pages/dashboard/bill/BillList';
+import CategoryAdd from './pages/dashboard/category/CategoryAdd';
+import CategoryEdit from './pages/dashboard/category/CategoryEdit';
+import CategoryList from './pages/dashboard/category/CategoryList';
+import ProductAdd from './pages/dashboard/product/ProductAdd';
+import ProductEdit from './pages/dashboard/product/ProductEdit';
+import ProductList from './pages/dashboard/product/ProductList';
+import UserAdd from './pages/dashboard/user/UserAdd';
+import UserEdit from './pages/dashboard/user/UserEdit';
+import UserList from './pages/dashboard/user/UserList';
+import DetailPage from './pages/website/DetailPage';
+import HomePage from './pages/website/Home';
+import Layout from './pages/website/Layout';
+import LoginPage from './pages/website/LoginPage/LoginPage';
+import ShopPage from './pages/website/Shop';
+import CartLayout from './pages/website/Cart/CartLayout';
+import ForgotPassword from './pages/website/LoginPage/ForgotPassword';
+import ProfileLayout from './pages/website/Profile/ProfileLayout';
 
 function App() {
   return (
@@ -34,11 +34,11 @@ function App() {
         <Route path='/' element={<Layout />} >
           <Route path='' element={<HomePage />} />
           <Route path='shop' element={<ShopPage />} />
-          <Route path='cart' element={<CartPage />} />
+          <Route path='cart' element={<CartLayout />} />
           <Route path='detail/:id' element={<DetailPage />} />
           <Route path='login' element={<LoginPage />} />
           <Route path='forgot-password' element={<ForgotPassword />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path='profile' element={<ProfileLayout />} />
         </Route>
         <Route path='admin' element={<LayoutAdmin />} >
           <Route path='' element={<DashBoard />} />
@@ -67,9 +67,9 @@ function App() {
           <Route path='bill'>
             <Route path='' element={<BillList />} />
           </Route>
-      </Route>
-      <Route path='*' element={<NotFound />} />
-    </Routes >
+        </Route>
+        <Route path='*' element={<NotFound />} />
+      </Routes >
     </>
   )
 }
